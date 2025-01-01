@@ -13,15 +13,15 @@ const DefaultLayout = (props: DefaultLayoutProps) => {
   return (
     <main className="component:DefaultLayout h-screen w-screen">
       <NavigationBar />
-      <ScrollArea className="main-container bg-bgContainerContent h-full w-full">
+      <ScrollArea className="main-container h-full w-full bg-bgContainerContent">
         {/* {auth.isLogged && <SideBar />} */}
         <div
           className={cn("main-container__content", auth.isLogged && "logged")}
         >
           {props.children}
         </div>
+        <Footer />
       </ScrollArea>
-      <Footer />
     </main>
   );
 };

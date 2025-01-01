@@ -1,8 +1,9 @@
 interface Props {
-  rating: number;
+  rating: number | undefined;
+  reviews?: number;
 }
 
-export default function ReviewRating({ rating }: Props) {
+const ProductRating = ({ rating = 0, reviews }: Props) => {
   const ratingStar = [];
   for (let i = 0; i < 5; i++) {
     if (i < rating) {
@@ -44,7 +45,18 @@ export default function ReviewRating({ rating }: Props) {
 
   return (
     <>
-      <div className="flex items-center">{ratingStar}</div>
+      <div className="flex items-center">
+        <p className="mb-0 mr-2 font-bold">4.5</p>
+        {ratingStar}
+        <a
+          href="#"
+          className="text-gray-500 hover:text-gray-700 ml-3 text-sm font-medium"
+        >
+          See all {reviews} reviews
+        </a>
+      </div>
     </>
   );
-}
+};
+
+export default ProductRating;

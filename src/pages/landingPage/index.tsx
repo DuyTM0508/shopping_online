@@ -3,6 +3,7 @@ import ProductFeature from "@/components/product/productFeature";
 import PromoSectionLarge from "@/components/promo/promoSectionLarge";
 import data from "../../../public/data.json";
 import { Link } from "react-router-dom";
+import BaseUrl from "@/consts/baseUrl";
 
 const LandingPage = () => {
   //! State
@@ -18,6 +19,8 @@ const LandingPage = () => {
         pageHeaderBgImg={"../images/bg2.jpg"}
         pageHeaderMinVh="90vh"
         pageHeaderRadius={""}
+        titleButton="Our Products"
+        linkTo={BaseUrl.ProductPage}
       />
       <div className="container my-5">
         <div className="mb-8 text-center">
@@ -44,6 +47,8 @@ const LandingPage = () => {
           pageHeaderBgImg={"../images/bg2.jpg"}
           pageHeaderMinVh="50vh"
           pageHeaderRadius="1rem"
+          titleButton="Shop Now"
+          linkTo={BaseUrl.ProductPage}
         />
         <div className="my-5">
           <ProductFeature

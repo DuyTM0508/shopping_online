@@ -1,4 +1,4 @@
-import { PRODUCT_URL } from "@/consts/apiUrl";
+import { PRODUCT_DETAIL_URL, PRODUCT_URL } from "@/consts/apiUrl";
 import httpService from "@/services/httpService";
 import { AxiosRequestConfig } from "axios";
 import queryString from "query-string";
@@ -13,6 +13,10 @@ class ProductService {
       `${PRODUCT_URL}/?${queryString.stringify(filter)}`,
       config
     );
+  }
+
+  getProductDetail(id: string | number, config?: AxiosRequestConfig) {
+    return httpService.get(`${PRODUCT_DETAIL_URL}?id=${id}`, config);
   }
 }
 

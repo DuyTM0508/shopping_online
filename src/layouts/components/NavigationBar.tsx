@@ -39,10 +39,6 @@ const NavigationBar = () => {
       label: "Product",
       href: BaseUrl.ProductPage,
     },
-    {
-      label: "Contact",
-      href: "/contact",
-    },
   ];
 
   //!Function
@@ -91,40 +87,11 @@ const NavigationBar = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center">
-            {isLogged && (
-              <Avatar
-                // onClick={() => navigation(BaseUrl.Profile)}
-                className="bg-blackA1 inline-flex h-11 w-11 cursor-pointer select-none items-center justify-center overflow-hidden rounded-full align-middle"
-              >
-                <AvatarImage
-                  className="h-full w-full rounded-[inherit] object-cover 2xl:h-[24px] 2xl:w-[24px]"
-                  // src={user?.avatarUrl}
-                  alt="avatar"
-                />
-                <AvatarFallback className="text-violet11 leading-1 flex h-full w-full items-center justify-center border bg-white text-[15px] font-medium text-black">
-                  DT
-                </AvatarFallback>
-              </Avatar>
-            )}
-            <div className={"typo-6 2xl:text-typo-4 mx-2 cursor-default"}>
-              {user?.FullName}
-            </div>
-          </div>
-          <div>
-            <CommonIcons.ShoppingCart
-              className={"h-[24px] w-[24px]"}
-              color="red"
-            />
-          </div>
           {isLogged ? (
             <DropDownMenuProfile
               button={
                 <div className={"flex cursor-pointer items-center"}>
                   <CommonIcons.Settings className={"mr-2 h-[24px] w-[24px]"} />
-                  <div className="typo-6 2xl:text-typo-3 font-medium text-[#4B4B4B]">
-                    {"Settings"}
-                  </div>
                 </div>
               }
               content={
@@ -202,6 +169,32 @@ const NavigationBar = () => {
               </Button>
             </>
           )}
+          <div>
+            <CommonIcons.ShoppingCart
+              className={"h-[24px] w-[24px]"}
+              color="red"
+            />
+          </div>
+          <div className="flex items-center">
+            {isLogged && (
+              <Avatar
+                // onClick={() => navigation(BaseUrl.Profile)}
+                className="bg-blackA1 inline-flex h-11 w-11 cursor-pointer select-none items-center justify-center overflow-hidden rounded-full align-middle"
+              >
+                <AvatarImage
+                  className="h-full w-full rounded-[inherit] object-cover 2xl:h-[24px] 2xl:w-[24px]"
+                  // src={user?.avatarUrl}
+                  alt="avatar"
+                />
+                <AvatarFallback className="text-violet11 leading-1 flex h-full w-full items-center justify-center border bg-white text-[15px] font-medium text-black">
+                  DT
+                </AvatarFallback>
+              </Avatar>
+            )}
+            <div className={"typo-6 2xl:text-typo-4 mx-2 cursor-default"}>
+              {user?.FullName}
+            </div>
+          </div>
         </div>
       </div>
     </header>

@@ -9,3 +9,4 @@ export const LOGIN_URL = `${ROOT_URL}/Authservice/login`;
 
 // Product
 export const PRODUCT_URL = `${ROOT_URL}/Product/GetListProduct`;
+export const PRODUCT_DETAIL_URL = `${ROOT_URL}/Product/GetProductDetail`;

@@ -47,3 +47,23 @@ export interface Response<T> {
 }
 
 export type ResponseGetListProduct = Response<IProductList>;
+
+export interface IProductDetail {
+  Object: ProductDetail;
+}
+
+export interface ProductDetail {
+  Id: string;
+  Name: string;
+  Description: string;
+  Price: number;
+  PublishedDate: Date;
+  FullName: string;
+  Category: string;
+  Image: string;
+  FileList: string[];
+  Rating: number | undefined;
+  Reviews: number;
+}
+
+export type ResponseGetDetailProduct = Response<IProductDetail>;

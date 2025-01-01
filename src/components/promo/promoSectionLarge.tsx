@@ -1,9 +1,15 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import BaseUrl from "@/consts/baseUrl";
+
 interface Props {
   title: string;
   full_description: string;
   pageHeaderBgImg: string;
   pageHeaderMinVh: string;
   pageHeaderRadius: string;
+  titleButton: string;
+  linkTo?: string;
 }
 
 const PromoSectionLarge = ({
@@ -12,7 +18,10 @@ const PromoSectionLarge = ({
   pageHeaderBgImg,
   pageHeaderMinVh,
   pageHeaderRadius,
+  titleButton,
+  linkTo,
 }: Props) => {
+  const navigate = useNavigate();
   return (
     <section className="mb-8">
       <div
@@ -31,9 +40,13 @@ const PromoSectionLarge = ({
                 {title}
               </h1>
               <p className="mb-6 text-lg text-white">{full_description}</p>
-              <button className="btn rounded-lg bg-white px-6 py-3 text-lg text-black transition hover:bg-gray-200">
-                Explore New Collection
-              </button>
+              <Button
+                className="btn hover:bg-gray-200 rounded-lg bg-white px-6 py-3 text-lg text-black transition"
+                variant={"primary"}
+                onClick={() => navigate(linkTo || BaseUrl.HomePage)}
+              >
+                {titleButton}
+              </Button>
             </div>
           </div>
         </div>

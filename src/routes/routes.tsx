@@ -6,8 +6,12 @@ import { PERMISSION_ENUM } from "@/consts/common";
 // Bash importHere
 const DefaultLayout = lazy(() => import("@/layouts/DefaultLayout"));
 const Login = lazy(() => import("@/pages/Login"));
-const LandingPage = lazy(() => import("@/pages/landingPage/LandingPage"));
-const ProductPage = lazy(() => import("@/pages/productPage/ProductPage"));
+const LandingPage = lazy(() => import("@/pages/landingPage"));
+const ProductPage = lazy(() => import("@/pages/productPage"));
+const HomePage = lazy(() => import("@/pages/homePage"));
+const ProductDetail = lazy(
+  () => import("@/pages/productPage/pages/DetailProduct")
+);
 interface Route {
   name: string;
   path: string;
@@ -26,10 +30,22 @@ interface Route {
 
 const routes: Route[] = [
   {
+    name: "Home Layout",
+    path: BaseUrl.HomePage,
+    layout: DefaultLayout,
+    routeChild: [
+      // Bash appendHere
+      {
+        name: "HomePage",
+        path: BaseUrl.HomePage,
+        component: HomePage,
+      },
+    ],
+  },
+  {
     name: "Landing Layout",
     path: BaseUrl.LandingPage,
     layout: DefaultLayout,
-    isPrivateRoute: false,
     routeChild: [
       // Bash appendHere
       {
@@ -43,13 +59,17 @@ const routes: Route[] = [
     name: "Product Layout",
     path: BaseUrl.ProductPage,
     layout: DefaultLayout,
-    isPrivateRoute: false,
     routeChild: [
       // Bash appendHere
       {
         name: "ProductPage",
         path: BaseUrl.ProductPage,
         component: withCheckRole(ProductPage, [PERMISSION_ENUM.PUBLIC]),
+      },
+      {
+        name: "ProductDetail",
+        path: `${BaseUrl.ProductPage}/:id`,
+        component: withCheckRole(ProductDetail, [PERMISSION_ENUM.USER]),
       },
     ],
   },

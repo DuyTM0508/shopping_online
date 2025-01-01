@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ReviewRating from "./reviewRating";
+import { memo } from "react";
 
 interface Props {
   review: {
@@ -11,26 +12,34 @@ interface Props {
   };
 }
 
-export default function ReviewComment({ review }: Props) {
+const ReviewComment = ({ review }: Props) => {
   return (
     <>
-      <div className="d-block my-5">
+      <div className="my-5 block">
         <ReviewRating rating={review.rating} />
-        <p className="mt-4 text-sm">{review.comment}</p>
-        <div className="d-flex align-items-center">
+        <p className="text-gray-600 mt-4 text-sm">{review.comment}</p>
+        <div className="mt-4 flex items-center">
           <Link
             to="#"
-            className="avatar avatar-lg rounded-circle min-width-50 min-height-50"
+            className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full"
           >
-            <img alt="Image placeholder" src={review.avatar} />
+            <img
+              alt="Image placeholder"
+              src={review.avatar}
+              className="h-full w-full object-cover"
+            />
           </Link>
-          <div className="ms-3">
-            <h6 className="mb-0">{review.name}</h6>
-            <p className="mb-2 text-sm">{review.date}</p>
+          <div className="ml-3">
+            <h6 className="text-gray-800 mb-0 text-base font-medium">
+              {review.name}
+            </h6>
+            <p className="text-gray-500 text-sm">{review.date}</p>
           </div>
         </div>
       </div>
-      <hr className="horizontal dark" />
+      <hr className="border-gray-300" />
     </>
   );
-}
+};
+
+export default memo(ReviewComment);
