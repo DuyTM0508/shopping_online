@@ -1,5 +1,6 @@
 import { ImageSource } from "@/assets";
 import CommonIcons from "@/components/commonIcons";
+import DialogCart from "@/components/dialogs/DialogCart";
 import DialogConfirm from "@/components/dialogs/DialogConfirm";
 import DropDownMenuProfile from "@/components/dropdowns/DropdownMenuProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,6 +42,8 @@ const NavigationBar = () => {
     },
   ];
 
+  const [openCart, toggleOpenCart, shouldRenderOpenCart] = useToggleDialog();
+
   //!Function
 
   //!Render
@@ -54,6 +57,14 @@ const NavigationBar = () => {
           content={"Are you sure you want to logout?"}
           variantYes={"destructive"}
           onSubmit={() => logout()}
+        />
+      )}
+      {shouldRenderOpenCart && (
+        <DialogCart
+          isOpen={openCart}
+          toggle={toggleOpenCart}
+          title={"Cart"}
+          variantYes={"destructive"}
         />
       )}
       <div className="flex w-screen items-center justify-between px-4">
@@ -169,12 +180,6 @@ const NavigationBar = () => {
               </Button>
             </>
           )}
-          <div>
-            <CommonIcons.ShoppingCart
-              className={"h-[24px] w-[24px]"}
-              color="red"
-            />
-          </div>
           <div className="flex items-center">
             {isLogged && (
               <Avatar
@@ -194,6 +199,14 @@ const NavigationBar = () => {
             <div className={"typo-6 2xl:text-typo-4 mx-2 cursor-default"}>
               {user?.FullName}
             </div>
+          </div>
+          <div className="flex items-center justify-normal gap-2">
+            <CommonIcons.ShoppingCart
+              className={"h-[20px] w-[20px] hover:cursor-pointer"}
+              color="red"
+              onClick={toggleOpenCart}
+            />
+            <span>0</span>
           </div>
         </div>
       </div>

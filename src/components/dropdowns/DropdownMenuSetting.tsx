@@ -30,14 +30,14 @@ const DropDownMenuSetting = () => {
               className={"hover:bg-gray-400 w-full p-1 text-left"}
               onClick={() => i18n.changeLanguage("en")}
             >
-              {t("common.navigationBar.settingPopup.en")}
+              {"English"}
             </Button>
             <Button
               variant={"ghost"}
               className={"hover:bg-gray-400 w-full p-1 text-left"}
               onClick={() => i18n.changeLanguage("jp")}
             >
-              {t("common.navigationBar.settingPopup.jp")}
+              {"Japanese"}
             </Button>
           </div>
         </DropdownMenuContent>

@@ -1,9 +1,7 @@
 import BaseUrl from "@/consts/baseUrl";
 import useToggleDialog from "@/hooks/useToggleDialog";
-import { useAuth } from "@/providers/AuthenticationProvider";
-import { Link, useNavigate } from "react-router-dom";
-import CommonIcons from "../commonIcons";
-import DialogConfirm from "../dialogs/DialogConfirm";
+import { Link } from "react-router-dom";
+import DialogProduct from "../../pages/productPage/dialogs/DialogProduct";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -24,10 +22,9 @@ export default function CardProduct({
   position,
 }: Props) {
   //!State
-  const { isLogged } = useAuth();
-  const [openAskLogin, toggleAskLogin, shouldRenderAskLogin] =
+
+  const [openAskQuickView, toggleAskQuickView, shouldRenderAskQuickView] =
     useToggleDialog();
-  const navigation = useNavigate();
 
   const textAlign =
     position === "center"
@@ -37,24 +34,20 @@ export default function CardProduct({
       : "text-right";
 
   //!Function
-  const handleCheckLogin = () => {
-    if (!isLogged) {
-      toggleAskLogin();
-    }
-  };
 
   //!Render
   return (
     <>
       <div className="border-gray-200 mb-5 rounded-lg border shadow-md">
-        {shouldRenderAskLogin && (
-          <DialogConfirm
-            isOpen={openAskLogin}
-            toggle={toggleAskLogin}
-            title={"Login"}
-            content={"You need to login to shop"}
+        {shouldRenderAskQuickView && (
+          <DialogProduct
+            isOpen={openAskQuickView}
+            toggle={toggleAskQuickView}
+            title={"Quick View"}
+            detailId={detailId}
             variantYes={"destructive"}
-            onSubmit={() => navigation(BaseUrl.Login)}
+            titleButtonConfirm="Add To Cart"
+            titleButtonCancel="Continue Shopping"
           />
         )}
         <div className="">
@@ -85,16 +78,12 @@ export default function CardProduct({
             //   />
             // </Link>
             <Button
-              className={"typo-13 bg-main-primary"}
+              className={"typo-13 bg-black text-white"}
               type="submit"
               variant={"destructive"}
-              onClick={handleCheckLogin}
+              onClick={toggleAskQuickView}
             >
-              Shop Now
-              <CommonIcons.ShoppingCart
-                className={"ml-1 h-[20px] w-[20px]"}
-                color="red"
-              />
+              Product Quickview
             </Button>
           }
         </div>

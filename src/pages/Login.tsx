@@ -20,7 +20,7 @@ const Login = () => {
 
   //! Render
   if (isLogged) {
-    return <Navigate to={BaseUrl.LandingPage} />;
+    return <Navigate to={BaseUrl.HomePage} />;
   }
 
   const renderFormik = () => {
