@@ -5,9 +5,9 @@ interface Props {
 export default function ProductFeatureDetails({ featuresDetails }: Props) {
   const prodFeatures: any = [];
 
-  Object.entries(featuresDetails).map(([value]) => {
+  Object.entries(featuresDetails).map(([value, index]) => {
     prodFeatures.push(
-      <div className="mb-4 flex items-center">
+      <div className="mb-4 flex items-center" key={index}>
         <svg
           className="mr-2"
           width="30"
@@ -23,7 +23,7 @@ export default function ProductFeatureDetails({ featuresDetails }: Props) {
             fill="#111827"
           />
         </svg>
-        <p className="text-gray-600">{value}</p>
+        <div className="text-gray-600">{value}</div>
       </div>
     );
   });

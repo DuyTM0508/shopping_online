@@ -32,8 +32,8 @@ export default function CardProduct({
         {/* Overlay */}
         <div className={`relative z-10 rounded-2xl p-4 ${classBody}`}>
           <div className="d-block mt-10">
-            <p className="mb-1 font-semibold text-white">{collection}</p>
-            <h4 className="font-black text-white">{title}</h4>
+            <div className="mb-1 font-semibold text-white">{collection}</div>
+            <div className="font-black text-white">{title}</div>
             {/* {(cta != null) &&  */}
             <Link
               to="#"

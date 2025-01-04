@@ -1,18 +1,21 @@
 import DialogConfirm from "@/components/dialogs/DialogConfirm";
+import LoadingScreen from "@/components/loadingScreen";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogOverlay,
   DialogPortal,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import BaseUrl from "@/consts/baseUrl";
+import { showError, showSuccess } from "@/helpers/toast";
 import useToggleDialog from "@/hooks/useToggleDialog";
 import { DialogI } from "@/interfaces/common";
 import { useAuth } from "@/providers/AuthenticationProvider";
+import httpService from "@/services/httpService";
+import cartService from "@/services/modules/cart/cartService";
 import useGetDetailProduct from "@/services/modules/product/hooks/useGetDetailProduct";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductGallery from "../../../components/product/productGallery";
@@ -41,8 +44,6 @@ const DialogProduct = (props: DialogProductProps) => {
   const {
     isOpen,
     toggle,
-    onSubmit,
-    title,
     variantYes,
     titleButtonConfirm,
     titleButtonCancel,
@@ -55,102 +56,119 @@ const DialogProduct = (props: DialogProductProps) => {
   const [openAskLogin, toggleAskLogin, shouldRenderAskLogin] =
     useToggleDialog();
   const navigation = useNavigate();
+  const sessionId = httpService.getSessionIdStorage();
 
   //!Function
-  const handleAskLogin = () => {
+  const handleAddToCart = async () => {
     if (!isLogged) {
       toggleAskLogin();
-      return;
+    } else {
+      if (detailProduct) {
+        await cartService.postAddToCart(detailId, sessionId);
+        showSuccess("Add to cart successfully");
+      } else {
+        showError("Item already exists in cart");
+      }
     }
   };
-
-  if (isLoading) return <div>Loading...</div>;
 
   //!Render
   return (
     <Dialog open={isOpen} onOpenChange={toggle}>
       <DialogOverlay>
         <DialogPortal>
-          <DialogContent className="max-w-7xl">
-            <Formik initialValues={{}} onSubmit={onSubmit || (() => {})}>
-              {({ isSubmitting }) => {
-                return (
-                  <Fragment>
-                    {title && (
-                      <DialogTitle className={"typo-7"}>{title}</DialogTitle>
-                    )}
-                    {shouldRenderAskLogin && (
-                      <DialogConfirm
-                        isOpen={openAskLogin}
-                        toggle={toggleAskLogin}
-                        title={"Login"}
-                        content={"You need to login to shop"}
-                        variantYes={"destructive"}
-                        onSubmit={() => navigation(BaseUrl.Login)}
-                      />
-                    )}
-                    <DialogDescription className={"typo-13 font-normal"}>
-                      <div className="component:DetailProduct container mx-auto p-6">
-                        <div className="flex flex-wrap lg:flex-nowrap">
-                          <ProductGallery
-                            images={detailProduct?.FileList}
-                            defaultImage={detailProduct?.Image}
+          <DialogContent className="max-w-3xl lg:max-w-6xl xl:max-w-7xl">
+            {isLoading ? (
+              <LoadingScreen />
+            ) : (
+              <Formik
+                initialValues={{ quantity: 1 }}
+                onSubmit={handleAddToCart}
+                enableReinitialize
+              >
+                {({}) => {
+                  return (
+                    <Form>
+                      <Fragment>
+                        {/* {title && (
+                          <DialogTitle className={"typo-7"}>
+                            {title}
+                          </DialogTitle>
+                        )} */}
+                        {shouldRenderAskLogin && (
+                          <DialogConfirm
+                            isOpen={openAskLogin}
+                            toggle={toggleAskLogin}
+                            title={"Login"}
+                            content={"You need to login to shop"}
+                            variantYes={"destructive"}
+                            onSubmit={() => navigation(BaseUrl.Login)}
                           />
-
-                          <div className="w-full lg:w-1/2 lg:pl-6">
-                            <h2 className="mt-4 text-2xl font-semibold">
-                              {detailProduct?.Name}
-                            </h2>
-                            <p className="text-gray-700 mb-5">
-                              {detailProduct?.Description}
-                            </p>
-
-                            <div className="flex items-center">
-                              <h3 className="text-lg font-medium">
-                                ${detailProduct?.Price.toLocaleString()}
-                              </h3>
-                              <input
-                                className="hidden"
-                                defaultValue={detailProduct?.Price}
+                        )}
+                        <DialogDescription className={"typo-13 font-normal"}>
+                          <div className="component:DetailProduct div-6 container mx-auto">
+                            <div className="flex flex-wrap lg:flex-nowrap">
+                              <ProductGallery
+                                images={detailProduct?.FileList}
+                                defaultImage={detailProduct?.Image}
                               />
-                            </div>
 
-                            <>
-                              <h3 className="sr-only">Reviews</h3>
-                              <div className="mt-3 flex items-center">
-                                <ProductRating rating={detailProduct?.Rating} />
-                                <span className="text-gray-600 ml-3">
-                                  {detailProduct?.Reviews} reviews
-                                </span>
+                              <div className="w-full lg:w-1/2 lg:pl-6">
+                                <div className="mt-4 text-2xl font-semibold">
+                                  {detailProduct?.Name}
+                                </div>
+                                <div className="text-gray-700 mb-5">
+                                  {detailProduct?.Description}
+                                </div>
+
+                                <div className="flex items-center">
+                                  <div className="text-lg font-medium">
+                                    ${detailProduct?.Price.toLocaleString()}
+                                  </div>
+                                  <input
+                                    className="hidden"
+                                    defaultValue={detailProduct?.Price}
+                                  />
+                                </div>
+
+                                <>
+                                  <div className="sr-only">Reviews</div>
+                                  <div className="mt-3 flex items-center">
+                                    <ProductRating
+                                      rating={detailProduct?.Rating}
+                                    />
+                                    <span className="text-gray-600 ml-3">
+                                      {detailProduct?.Reviews} reviews
+                                    </span>
+                                  </div>
+                                </>
+
+                                <div className="mt-6 flex flex-col gap-3">
+                                  <Button
+                                    className="typo-13 px-4 py-3 font-semibold text-white"
+                                    variant={variantYes}
+                                    type="submit"
+                                  >
+                                    {titleButtonConfirm || "Confirm"}
+                                  </Button>
+                                  <Button
+                                    className="typo-13 bg-black px-4 py-3 font-semibold text-white"
+                                    variant="primary"
+                                    onClick={toggle}
+                                  >
+                                    {titleButtonCancel || "Cancel"}
+                                  </Button>
+                                </div>
                               </div>
-                            </>
-
-                            <div className="mt-6 flex flex-col gap-3">
-                              <Button
-                                className="typo-13 px-4 py-3 font-semibold text-white"
-                                variant={variantYes}
-                                isLoading={isSubmitting}
-                                onClick={handleAskLogin}
-                              >
-                                {titleButtonConfirm || "Confirm"}
-                              </Button>
-                              <Button
-                                className="typo-13 bg-black px-4 py-3 font-semibold text-white"
-                                variant="primary"
-                                type="button"
-                                onClick={toggle}
-                              >
-                                {titleButtonCancel || "Cancel"}
-                              </Button>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </DialogDescription>
-                  </Fragment>
-                );
-              }}
-            </Formik>
+                        </DialogDescription>
+                      </Fragment>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            )}
           </DialogContent>
         </DialogPortal>
       </DialogOverlay>

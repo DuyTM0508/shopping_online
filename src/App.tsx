@@ -29,7 +29,7 @@ import { useGet } from "./stores/useStores";
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <div role="alert">
-      <p>Something went wrong:</p>
+      <div>Something went wrong:</div>
       <pre>{error.message}</pre>
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>

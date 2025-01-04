@@ -17,7 +17,7 @@ const ReviewComment = ({ review }: Props) => {
     <>
       <div className="my-5 block">
         <ReviewRating rating={review.rating} />
-        <p className="text-gray-600 mt-4 text-sm">{review.comment}</p>
+        <div className="text-gray-600 mt-4 text-sm">{review.comment}</div>
         <div className="mt-4 flex items-center">
           <Link
             to="#"
@@ -30,10 +30,10 @@ const ReviewComment = ({ review }: Props) => {
             />
           </Link>
           <div className="ml-3">
-            <h6 className="text-gray-800 mb-0 text-base font-medium">
+            <div className="text-gray-800 mb-0 text-base font-medium">
               {review.name}
-            </h6>
-            <p className="text-gray-500 text-sm">{review.date}</p>
+            </div>
+            <div className="text-gray-500 text-sm">{review.date}</div>
           </div>
         </div>
       </div>

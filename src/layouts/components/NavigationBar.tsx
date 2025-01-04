@@ -9,6 +9,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import BaseUrl from "@/consts/baseUrl";
 import useToggleDialog from "@/hooks/useToggleDialog";
 import { useAuth } from "@/providers/AuthenticationProvider";
+import { useCartStore } from "@/stores/useStores";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NavigationBar = () => {
@@ -19,6 +20,8 @@ const NavigationBar = () => {
     useToggleDialog();
   const location = useLocation();
   const path = location.pathname;
+
+  const itemCart = useCartStore((state) => state.getItemCount());
 
   const menu = [
     {
@@ -201,12 +204,19 @@ const NavigationBar = () => {
             </div>
           </div>
           <div className="flex items-center justify-normal gap-2">
-            <CommonIcons.ShoppingCart
-              className={"h-[20px] w-[20px] hover:cursor-pointer"}
-              color="red"
-              onClick={toggleOpenCart}
-            />
-            <span>0</span>
+            <div className="relative">
+              <CommonIcons.ShoppingCart
+                className={"h-[20px] w-[20px] hover:cursor-pointer"}
+                color="red"
+                onClick={toggleOpenCart}
+              />
+            </div>
+            <div
+              className="absolute right-[11px] top-[14px] flex max-h-[18px] max-w-[20px] items-center justify-center overflow-hidden rounded-full bg-yellow-300 p-1"
+              style={{ fontSize: "10px" }}
+            >
+              {itemCart || 0}
+            </div>
           </div>
         </div>
       </div>

@@ -40,6 +40,7 @@ export interface ProductList {
   FullName: string;
   Category: string;
   Image: string;
+  Quantity: number;
 }
 
 export interface Response<T> {
@@ -64,6 +65,7 @@ export interface ProductDetail {
   FileList: string[];
   Rating: number | undefined;
   Reviews: number;
+  Quantity: number;
 }
 
 export type ResponseGetDetailProduct = Response<IProductDetail>;

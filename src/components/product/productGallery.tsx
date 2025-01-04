@@ -1,5 +1,5 @@
 interface Props {
-  images: string[] | undefined;
+  images?: string[] | undefined;
   defaultImage: string | undefined;
 }
 

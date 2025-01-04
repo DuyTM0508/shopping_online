@@ -25,7 +25,7 @@ export default function ReviewProgress({ reviews }: Props) {
       {[5, 4, 3, 2, 1].map((rating) => (
         <div key={rating} className="mb-4 flex items-center">
           <div className="flex items-center">
-            <p className="mb-0 font-bold">{rating}</p>
+            <div className="mb-0 font-bold">{rating}</div>
             <svg
               className="mx-2 h-5 w-5 flex-shrink-0 text-yellow-500"
               xmlns="http://www.w3.org/2000/svg"

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface Props {
   sizes: Map<string, number>;
 }
@@ -8,10 +10,10 @@ const ProductSizes = ({ sizes }: Props) => {
   return (
     <>
       <div className="mt-4 flex items-center justify-between">
-        <h6 className="mb-0">Size</h6>
-        <a href="#" className="text-body mb-0">
+        <div className="mb-0">Size</div>
+        <Link to="#" className="text-body mb-0">
           Size guide
-        </a>
+        </Link>
       </div>
       <div className="my-4 flex flex-wrap text-center">
         {Object.entries(sizes).map(([size, amount], i) => (

@@ -1,8 +1,9 @@
-import { UserInfo } from '@/interfaces/user';
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { UserInfo } from "@/interfaces/user";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
-export const TOKEN_KEY = 'token';
-export const USER_KEY = 'user';
+export const TOKEN_KEY = "token";
+export const USER_KEY = "user";
+export const SESSION_ID = "sessionId";
 
 class Services {
   axios: AxiosInstance;
@@ -86,12 +87,13 @@ class Services {
 
   getTokenStorage() {
     const token = localStorage.getItem(TOKEN_KEY);
-    return token || '';
+    return token || "";
   }
 
   clearStorage() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(SESSION_ID);
   }
 
   saveUserStorage(user: UserInfo) {
@@ -100,10 +102,19 @@ class Services {
 
   getUserStorage() {
     if (localStorage.getItem(USER_KEY)) {
-      return JSON.parse(localStorage?.getItem(USER_KEY) || '') as UserInfo;
+      return JSON.parse(localStorage?.getItem(USER_KEY) || "") as UserInfo;
     }
 
     return null;
+  }
+
+  saveSessionIdStorage(sessionId: string) {
+    localStorage.setItem(SESSION_ID, sessionId);
+  }
+
+  getSessionIdStorage() {
+    const sessionId = localStorage.getItem(SESSION_ID);
+    return sessionId || "";
   }
 }
 

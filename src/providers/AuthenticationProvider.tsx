@@ -2,6 +2,7 @@ import { showError, showSuccess } from "@/helpers/toast";
 import { UserInfo } from "@/interfaces/user";
 import httpService from "@/services/httpService";
 import authenticationService from "@/services/modules/authentication/authenticationService";
+import CartService from "@/services/modules/cart/cartService";
 import {
   createContext,
   useCallback,
@@ -51,8 +52,10 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<UserInfo | null>(
     httpService.getUserStorage()
   );
+  const [sessionId, setSessionId] = useState(httpService.getSessionIdStorage());
   const [isLogging, setIsLogging] = useState(false);
   const requestApiLogin = authenticationService.postLogin;
+  const requestSessionId = CartService.getSessionId;
   //! Function
   const login = useCallback(
     ({ username, password }: LoginProps) => {
@@ -71,6 +74,10 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
               httpService.attachTokenToHeader(response.data.Object.Token);
               httpService.saveTokenStorage(response.data.Object.Token);
               httpService.saveUserStorage(response.data.Object);
+              await CartService.postStartSession();
+              const sessionId = await requestSessionId();
+              setSessionId(sessionId.data);
+              httpService.saveSessionIdStorage(sessionId.data);
               setIsLogging(false);
               showSuccess("Login successfully!");
               resolve(response);
@@ -101,11 +108,12 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       user,
       logout,
       login,
+      sessionId,
       // isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       // isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       // isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
     };
-  }, [login, logout, user, token, isLogging]);
+  }, [login, logout, user, token, isLogging, sessionId]);
 
   return (
     <AuthenticationContext.Provider value={value}>

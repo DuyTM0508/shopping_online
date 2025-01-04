@@ -59,12 +59,12 @@ export default function CardProduct({
           </Link>
         </div>
         <div className={`p-4 ${textAlign}`}>
-          {title && <h4 className="font-bold">{title}</h4>}
-          {description && <p className="text-gray-500">{description}</p>}
+          {title && <div className="font-bold">{title}</div>}
+          {description && <div className="text-gray-500">{description}</div>}
           {price && (
-            <h4 className="mb-3 mt-1 text-lg font-semibold">
+            <div className="mb-3 mt-1 text-lg font-semibold">
               ${price.toLocaleString()}
-            </h4>
+            </div>
           )}
           {
             // <Link

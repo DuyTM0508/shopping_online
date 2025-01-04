@@ -24,7 +24,7 @@ const LandingPage = () => {
       />
       <div className="container my-5">
         <div className="mb-8 text-center">
-          <h3 className="mb-2 text-xl font-bold">Shop by Category</h3>
+          <div className="mb-2 text-xl font-bold">Shop by Category</div>
           <Link to="#" className="text-dark font-semibold hover:underline">
             Browse all categories &#62;
           </Link>

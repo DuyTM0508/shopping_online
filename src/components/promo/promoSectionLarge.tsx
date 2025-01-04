@@ -36,10 +36,10 @@ const PromoSectionLarge = ({
         <div className="container relative z-10">
           <div className="flex justify-center">
             <div className="max-w-2xl text-center">
-              <h1 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+              <div className="mb-4 text-3xl font-bold text-white md:text-4xl">
                 {title}
-              </h1>
-              <p className="mb-6 text-lg text-white">{full_description}</p>
+              </div>
+              <div className="mb-6 text-lg text-white">{full_description}</div>
               <Button
                 className="btn hover:bg-gray-200 rounded-lg bg-white px-6 py-3 text-lg text-black transition"
                 variant={"primary"}

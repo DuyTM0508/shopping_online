@@ -11,6 +11,7 @@ import SelectField from "../customFieldsFormik/SelectField";
 import CardProduct from "./cardProduct";
 import PageWrapper from "../PageWrapper/PageWrapper";
 import { Link } from "react-router-dom";
+import LoadingScreen from "../loadingScreen";
 
 interface Props {
   title: string;
@@ -51,6 +52,7 @@ const CategoryFilter = ({ title }: Props) => {
 
   //!Function
 
+  if (loading) return <LoadingScreen />;
   //!Render
   return (
     <PageWrapper name="CategoryFilter" isLoading={loading}>
@@ -128,7 +130,7 @@ const CategoryFilter = ({ title }: Props) => {
                     </ul>
                     <div className="space-y-4">
                       <div className="border-t pt-4">
-                        <h5 className="font-bold">Designers</h5>
+                        <div className="font-bold">Designers</div>
                         <div className="mt-1 space-y-2">
                           <FormikField
                             component={CheckBoxField}
@@ -163,7 +165,7 @@ const CategoryFilter = ({ title }: Props) => {
                         </div>
                       </div>
                       <div className="border-t pt-4">
-                        <h5 className="font-bold">Size</h5>
+                        <div className="font-bold">Size</div>
                         <div className="mt-1 space-y-2">
                           <FormikField
                             component={CheckBoxField}
