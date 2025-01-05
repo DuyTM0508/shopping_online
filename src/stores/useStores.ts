@@ -34,7 +34,6 @@ type CartState = {
 
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
-
   // Add item to cart
   addItem: (item, quantity = 1) =>
     set((state) => {

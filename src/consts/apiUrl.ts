@@ -16,3 +16,5 @@ export const CART_URL_ID = `${ROOT_URL}/Cart/GetSessionId`;
 export const START_SESSION_URL = `${ROOT_URL}/Cart/StartSession`;
 export const ADD_TO_CART_URL = `${ROOT_URL}/Cart/AddToCart`;
 export const GET_CART_URL = `${ROOT_URL}/Cart/GetListCart`;
+export const REMOVE_CART_URL = `${ROOT_URL}/Cart/RemoveCart`;
+export const REMOVE_ALL_CART_URL = `${ROOT_URL}/Cart/RemoveAllCart`;

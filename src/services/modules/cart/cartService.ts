@@ -2,6 +2,8 @@ import {
   ADD_TO_CART_URL,
   CART_URL_ID,
   GET_CART_URL,
+  REMOVE_ALL_CART_URL,
+  REMOVE_CART_URL,
   START_SESSION_URL,
 } from "@/consts/apiUrl";
 import httpService from "@/services/httpService";
@@ -18,6 +20,15 @@ class CartService {
   }
   getListCart(SessionID: string) {
     return httpService.get(`${GET_CART_URL}?sessionId=${SessionID}`);
+  }
+  postRemoveCart(cartID: string) {
+    return httpService.post(`${REMOVE_CART_URL}?cartID=${cartID}`, null);
+  }
+  postRemoveAllCart(sessionID: string) {
+    return httpService.post(
+      `${REMOVE_ALL_CART_URL}?sessionId=${sessionID}`,
+      null
+    );
   }
 }
 

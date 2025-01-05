@@ -28,6 +28,7 @@ interface AuthenticationContextI {
     password: string;
   }) => void;
   logout: () => void;
+  updateUser: (user: UserInfo) => void;
   // isAdmin: boolean;
   // isAppManager: boolean;
   // isUser: boolean;
@@ -39,6 +40,7 @@ const AuthenticationContext = createContext<AuthenticationContextI>({
   user: {} as any,
   login: () => {},
   logout: () => {},
+  updateUser: () => {},
   // isAdmin: false,
   // isAppManager: false,
   // isUser: false,
@@ -56,6 +58,10 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const [isLogging, setIsLogging] = useState(false);
   const requestApiLogin = authenticationService.postLogin;
   const requestSessionId = CartService.getSessionId;
+  const updateUser = (user: UserInfo) => {
+    setUser(user);
+  };
+
   //! Function
   const login = useCallback(
     ({ username, password }: LoginProps) => {
@@ -109,6 +115,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       logout,
       login,
       sessionId,
+      updateUser,
       // isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       // isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       // isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),

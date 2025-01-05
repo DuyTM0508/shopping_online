@@ -6,19 +6,20 @@ import {
   DialogPortal,
 } from "@/components/ui/dialog";
 import { showSuccess } from "@/helpers/toast";
+import useToggleDialog from "@/hooks/useToggleDialog";
 import { DialogI } from "@/interfaces/common";
+import httpService from "@/services/httpService";
+import useGetListCart from "@/services/modules/cart/hooks/useGetListCart";
 import { useCartStore } from "@/stores/useStores";
 import { Formik } from "formik";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
-import CommonIcons from "../commonIcons";
+import LoadingScreen from "../loadingScreen";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
-import useToggleDialog from "@/hooks/useToggleDialog";
 import DialogCheckOut from "./DialogCheckOut";
-import useGetListCart from "@/services/modules/cart/hooks/useGetListCart";
-import httpService from "@/services/httpService";
-import LoadingScreen from "../loadingScreen";
+import CommonIcons from "../commonIcons";
+import { Link } from "react-router-dom";
+import cartService from "@/services/modules/cart/cartService";
 
 interface DialogCartProps extends DialogI<any> {
   title: React.ReactNode;
@@ -39,15 +40,14 @@ interface DialogCartProps extends DialogI<any> {
 const DialogCart = (props: DialogCartProps) => {
   //!State
   const { isOpen, toggle } = props;
-  // const dataCart = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
   const [openCheckOut, toggleOpenCheckout, shouldRenderOpenCheckOut] =
     useToggleDialog();
   const sessionId = httpService.getSessionIdStorage();
+  const { data, isLoading, refetch } = useGetListCart(sessionId);
 
   //!Function
-  const { data, isLoading } = useGetListCart(sessionId);
 
   //!Render
   return (
@@ -81,9 +81,17 @@ const DialogCart = (props: DialogCartProps) => {
                                 <Button
                                   className="font-semibold  hover:bg-black"
                                   variant="destructive"
-                                  onClick={() => {
-                                    clearCart();
-                                    showSuccess("Clear all cart success");
+                                  onClick={async () => {
+                                    try {
+                                      await cartService.postRemoveAllCart(
+                                        sessionId
+                                      );
+                                      clearCart();
+                                      refetch();
+                                      showSuccess("Clear all cart success");
+                                    } catch (error) {
+                                      console.error(error);
+                                    }
                                   }}
                                   disabled={data?.length === 0}
                                 >
@@ -138,8 +146,16 @@ const DialogCart = (props: DialogCartProps) => {
                                                 />
                                                 <span
                                                   className="text-red-600"
-                                                  onClick={() => {
-                                                    removeItem(item.CartId);
+                                                  onClick={async () => {
+                                                    await cartService.postRemoveCart(
+                                                      item?.CartId
+                                                    );
+                                                    console.log(
+                                                      "cart id",
+                                                      item.CartId
+                                                    );
+                                                    removeItem(item.ProductId);
+                                                    refetch();
                                                     showSuccess(
                                                       "Remove item success"
                                                     );

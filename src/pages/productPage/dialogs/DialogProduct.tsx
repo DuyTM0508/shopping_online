@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import ProductGallery from "../../../components/product/productGallery";
 import ProductRating from "../../../components/product/productRating";
 import { Button } from "../../../components/ui/button";
+import { useCartStore } from "@/stores/useStores";
 
 interface DialogProductProps extends DialogI<any> {
   title: React.ReactNode;
@@ -57,14 +58,16 @@ const DialogProduct = (props: DialogProductProps) => {
     useToggleDialog();
   const navigation = useNavigate();
   const sessionId = httpService.getSessionIdStorage();
+  const addToCart = useCartStore((state) => state.addItem);
 
   //!Function
   const handleAddToCart = async () => {
     if (!isLogged) {
       toggleAskLogin();
     } else {
-      if (detailProduct) {
-        await cartService.postAddToCart(detailId, sessionId);
+      if (detailProduct && !useCartStore.getState().itemExists(detailId)) {
+        await cartService.postAddToCart(sessionId, detailId);
+        addToCart(detailProduct);
         showSuccess("Add to cart successfully");
       } else {
         showError("Item already exists in cart");

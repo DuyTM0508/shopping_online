@@ -1,3 +1,4 @@
+import DialogConfirm from "@/components/dialogs/DialogConfirm";
 import LoadingScreen from "@/components/loadingScreen";
 import AddToCartForm from "@/components/product/addToCartForm";
 import ProductGallery from "@/components/product/productGallery";
@@ -5,7 +6,10 @@ import ProductRating from "@/components/product/productRating";
 import ReviewSummaryChart from "@/components/reviews/reviewSummaryChart";
 import BaseUrl from "@/consts/baseUrl";
 import { showError, showSuccess } from "@/helpers/toast";
+import useToggleDialog from "@/hooks/useToggleDialog";
 import { useAuth } from "@/providers/AuthenticationProvider";
+import httpService from "@/services/httpService";
+import cartService from "@/services/modules/cart/cartService";
 import useGetDetailProduct from "@/services/modules/product/hooks/useGetDetailProduct";
 import { useCartStore } from "@/stores/useStores";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,16 +32,20 @@ const DetailProduct = ({}: Props) => {
   const { data: detailProduct, isLoading } = useGetDetailProduct(detailId, {
     isTrigger: !!detailId,
   });
-  const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
   const itemExists = useCartStore((state) => state.itemExists);
+  const sessionId = httpService.getSessionIdStorage();
+  const [openAskLogin, toggleAskLogin, shouldRenderAskLogin] =
+    useToggleDialog();
+  const navigation = useNavigate();
 
   //!Function
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isLogged) {
-      navigate(BaseUrl.Login);
+      toggleAskLogin();
     } else {
       if (detailProduct && !itemExists(detailId)) {
+        await cartService.postAddToCart(sessionId, detailId);
         addItem(detailProduct);
         showSuccess("Added to cart successfully");
       } else {
@@ -50,6 +58,16 @@ const DetailProduct = ({}: Props) => {
   //!Render
   return (
     <>
+      {shouldRenderAskLogin && (
+        <DialogConfirm
+          isOpen={openAskLogin}
+          toggle={toggleAskLogin}
+          title={"Login"}
+          content={"You need to login to add to cart"}
+          variantYes={"destructive"}
+          onSubmit={() => navigation(BaseUrl.Login)}
+        />
+      )}
       <div className="component:DetailProduct container mx-auto p-6">
         <div className="flex flex-wrap lg:flex-nowrap">
           <ProductGallery

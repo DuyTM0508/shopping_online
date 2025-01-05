@@ -20,13 +20,12 @@ const NavigationBar = () => {
     useToggleDialog();
   const location = useLocation();
   const path = location.pathname;
-
-  const itemCart = useCartStore((state) => state.getItemCount());
+  const getItemCount = useCartStore((state) => state.getItemCount());
 
   const menu = [
     {
-      label: "Profile",
-      // onClick: () => navigation(BaseUrl.Profile),
+      label: "General Information",
+      onClick: () => navigation(BaseUrl.Profile),
     },
     {
       label: "Logout",
@@ -46,6 +45,8 @@ const NavigationBar = () => {
   ];
 
   const [openCart, toggleOpenCart, shouldRenderOpenCart] = useToggleDialog();
+  const [openAskLogin, toggleAskLogin, shouldRenderAskLogin] =
+    useToggleDialog();
 
   //!Function
 
@@ -68,6 +69,16 @@ const NavigationBar = () => {
           toggle={toggleOpenCart}
           title={"Cart"}
           variantYes={"destructive"}
+        />
+      )}
+      {shouldRenderAskLogin && (
+        <DialogConfirm
+          isOpen={openAskLogin}
+          toggle={toggleAskLogin}
+          title={"Login"}
+          content={"You need to login to view cart"}
+          variantYes={"destructive"}
+          onSubmit={() => navigation(BaseUrl.Login)}
         />
       )}
       <div className="flex w-screen items-center justify-between px-4">
@@ -191,8 +202,9 @@ const NavigationBar = () => {
               >
                 <AvatarImage
                   className="h-full w-full rounded-[inherit] object-cover 2xl:h-[24px] 2xl:w-[24px]"
-                  // src={user?.avatarUrl}
+                  src={user?.Avatar}
                   alt="avatar"
+                  onClick={() => navigation(BaseUrl.Profile)}
                 />
                 <AvatarFallback className="text-violet11 leading-1 flex h-full w-full items-center justify-center border bg-white text-[15px] font-medium text-black">
                   DT
@@ -208,14 +220,14 @@ const NavigationBar = () => {
               <CommonIcons.ShoppingCart
                 className={"h-[20px] w-[20px] hover:cursor-pointer"}
                 color="red"
-                onClick={toggleOpenCart}
+                onClick={isLogged ? toggleOpenCart : toggleAskLogin}
               />
             </div>
             <div
               className="absolute right-[11px] top-[14px] flex max-h-[18px] max-w-[20px] items-center justify-center overflow-hidden rounded-full bg-yellow-300 p-1"
               style={{ fontSize: "10px" }}
             >
-              {itemCart || 0}
+              {getItemCount || 0}
             </div>
           </div>
         </div>

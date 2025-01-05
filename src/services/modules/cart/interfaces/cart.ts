@@ -1,8 +1,11 @@
-export interface ICart {
-  Object: CartList[];
+export interface CartList {
+  Object: {
+    cart: Cart[];
+    Total: number;
+  };
 }
 
-export interface CartList {
+export interface Cart {
   CartId: string;
   ProductId: string;
   ProductName: string;
@@ -15,4 +18,4 @@ export interface Response<T> {
   data: T;
 }
 
-export type ResponseGetListCart = Response<ICart>;
+export type ResponseGetListCart = Response<CartList>;

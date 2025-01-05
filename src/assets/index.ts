@@ -5,6 +5,8 @@ import errorIcon from "./source/error.svg";
 import successIcon from "./source/success.svg";
 import closeErrorIcon from "./source/closeError.svg";
 import closeSuccess from "./source/close.svg";
+import avartarDefault from "./source/avartar_default.jpg";
+import editIcon from "./source/edit-icon.svg";
 
 export const ImageSource = {
   logoApp: logoApp,
@@ -14,4 +16,6 @@ export const ImageSource = {
   successIcon: successIcon,
   closeErrorIcon: closeErrorIcon,
   closeSuccess: closeSuccess,
+  avartarDefault: avartarDefault,
+  editIcon: editIcon,
 };

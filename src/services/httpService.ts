@@ -38,7 +38,7 @@ class Services {
       function (config) {
         if (config.headers) {
           // Do something before request is sent
-          config.headers.Authorization = `Bearer ${token}`;
+          config.headers.Authorization = `${token}`;
         }
         return config;
       },

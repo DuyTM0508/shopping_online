@@ -21,6 +21,22 @@ export function a11yProps(index: number) {
   };
 }
 
+export const getFromStorage = (key: string) => {
+  const dataLocal = localStorage.getItem(key);
+  const dataSession = sessionStorage.getItem(key);
+
+  const data = dataLocal || dataSession;
+  const from = data
+    ? dataLocal
+      ? "localStorage"
+      : "sessionStorage"
+    : "notfound";
+  return {
+    data,
+    from,
+  };
+};
+
 export const convertParamFilter = (parseRequest: any, currentFilter: any) => {
   return Lodash(parseRequest(currentFilter))
     .omitBy(Lodash.isUndefined)
