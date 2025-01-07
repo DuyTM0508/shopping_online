@@ -4,6 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 export const TOKEN_KEY = "token";
 export const USER_KEY = "user";
 export const SESSION_ID = "sessionId";
+export const ORDER_CODE = "orderCode";
 
 class Services {
   axios: AxiosInstance;
@@ -94,6 +95,7 @@ class Services {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(SESSION_ID);
+    localStorage.removeItem(ORDER_CODE);
   }
 
   saveUserStorage(user: UserInfo) {
@@ -115,6 +117,15 @@ class Services {
   getSessionIdStorage() {
     const sessionId = localStorage.getItem(SESSION_ID);
     return sessionId || "";
+  }
+
+  saveOrderCodeStorage(orderCode: string) {
+    localStorage.setItem(ORDER_CODE, orderCode);
+  }
+
+  getOrderCodeStorage() {
+    const orderCode = localStorage.getItem(ORDER_CODE);
+    return orderCode || "";
   }
 }
 

@@ -24,6 +24,10 @@ const NavigationBar = () => {
 
   const menu = [
     {
+      label: "Order Summary",
+      onClick: () => navigation(BaseUrl.PaymentSuccess),
+    },
+    {
       label: "General Information",
       onClick: () => navigation(BaseUrl.Profile),
     },

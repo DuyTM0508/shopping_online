@@ -87,3 +87,20 @@
     @apply mr-2 h-4 w-4;
   }
 }
+
+.typo-1 {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.typo-2 {
+  font-size: 30px;
+  line-height: 30px;
+}
+
+/* .truncate-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 270px;
+} */

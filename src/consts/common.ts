@@ -1,13 +1,15 @@
 export const LANG_ENUM = {
-  vi: 'vi',
-  en: 'en',
+  vi: "vi",
+  en: "en",
 };
 
 export enum PERMISSION_ENUM {
-  PUBLIC = 'PUBLIC',
-  ADMIN = 'admin',
-  USER = 'user',
-  APP_MANAGER = 'appmanager',
+  PUBLIC = "PUBLIC",
+  ADMIN = "admin",
+  USER = "user",
+  APP_MANAGER = "appmanager",
+  SELLER = "seller",
+  BUYER = "buyer",
 }
 
 export const PermissionOptions = Object.entries(PERMISSION_ENUM)

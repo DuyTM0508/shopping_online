@@ -59,24 +59,22 @@ export default function CardProduct({
           </Link>
         </div>
         <div className={`p-4 ${textAlign}`}>
-          {title && <div className="font-bold">{title}</div>}
-          {description && <div className="text-gray-500">{description}</div>}
+          {title && (
+            <div className="max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+              {title}
+            </div>
+          )}
+          {description && (
+            <div className="text-gray-500 max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
+              {description}
+            </div>
+          )}
           {price && (
             <div className="mb-3 mt-1 text-lg font-semibold">
-              ${price.toLocaleString()}
+              {price.toLocaleString()} VND
             </div>
           )}
           {
-            // <Link
-            //   to="#"
-            //   className="text-gray-500 flex items-center justify-center gap-1 text-sm font-normal"
-            // >
-            //   Shop Now
-            //   <CommonIcons.ShoppingCart
-            //     className={"h-[24px] w-[24px]"}
-            //     color="red"
-            //   />
-            // </Link>
             <Button
               className={"typo-13 bg-black text-white"}
               type="submit"

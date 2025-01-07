@@ -5,7 +5,7 @@ import {
   DialogOverlay,
   DialogPortal,
 } from "@/components/ui/dialog";
-import { showSuccess } from "@/helpers/toast";
+import { showError, showSuccess } from "@/helpers/toast";
 import useToggleDialog from "@/hooks/useToggleDialog";
 import { DialogI } from "@/interfaces/common";
 import httpService from "@/services/httpService";
@@ -69,10 +69,12 @@ const DialogCart = (props: DialogCartProps) => {
                             toggle={toggleOpenCheckout}
                             title={"Checkout Forms"}
                             variantYes={"destructive"}
+                            data={data}
+                            refetchCart={refetch}
                           />
                         )}
                         <DialogDescription className={"typo-13 font-normal"}>
-                          <section className="dark:bg-gray-900 bg-white antialiased">
+                          <div className="dark:bg-gray-900 bg-white antialiased">
                             <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
                               <div className="flex items-center justify-between">
                                 <div className="text-gray-900 text-xl font-semibold dark:text-white sm:text-2xl">
@@ -90,7 +92,7 @@ const DialogCart = (props: DialogCartProps) => {
                                       refetch();
                                       showSuccess("Clear all cart success");
                                     } catch (error) {
-                                      console.error(error);
+                                      showError("Clear all cart failed");
                                     }
                                   }}
                                   disabled={data?.length === 0}
@@ -125,8 +127,8 @@ const DialogCart = (props: DialogCartProps) => {
                                               </div>
                                               <div className="text-end md:order-4 md:w-32">
                                                 <div className="text-gray-900 text-base font-bold dark:text-white">
-                                                  $
-                                                  {item?.Price?.toLocaleString()}
+                                                  {item?.Price?.toLocaleString()}{" "}
+                                                  VND
                                                 </div>
                                               </div>
                                             </div>
@@ -149,10 +151,6 @@ const DialogCart = (props: DialogCartProps) => {
                                                   onClick={async () => {
                                                     await cartService.postRemoveCart(
                                                       item?.CartId
-                                                    );
-                                                    console.log(
-                                                      "cart id",
-                                                      item.CartId
                                                     );
                                                     removeItem(item.ProductId);
                                                     refetch();
@@ -180,12 +178,11 @@ const DialogCart = (props: DialogCartProps) => {
 
                                     <div className="space-y-4">
                                       <div className="space-y-2">
-                                        <dl className="flex items-center justify-between gap-4">
-                                          <dt className="text-gray-500 dark:text-gray-400 text-base font-normal">
+                                        <div className="flex items-center justify-between gap-4">
+                                          <div className="text-gray-500 dark:text-gray-400 text-base font-normal">
                                             Original price
-                                          </dt>
-                                          <dd className="text-gray-900 text-base font-medium dark:text-white">
-                                            $
+                                          </div>
+                                          <div className="text-gray-900 text-base font-medium dark:text-white">
                                             {data
                                               ?.reduce(
                                                 (total, item) =>
@@ -193,43 +190,43 @@ const DialogCart = (props: DialogCartProps) => {
                                                 0
                                               )
                                               .toLocaleString()}
-                                          </dd>
-                                        </dl>
+                                            VND
+                                          </div>
+                                        </div>
 
-                                        <dl className="flex items-center justify-between gap-4">
-                                          <dt className="text-gray-500 dark:text-gray-400 text-base font-normal">
+                                        <div className="flex items-center justify-between gap-4">
+                                          <div className="text-gray-500 dark:text-gray-400 text-base font-normal">
                                             Savings
-                                          </dt>
-                                          <dd className="text-base font-medium text-green-600">
-                                            $0
-                                          </dd>
-                                        </dl>
+                                          </div>
+                                          <div className="text-base font-medium text-green-600">
+                                            0 VND
+                                          </div>
+                                        </div>
 
-                                        <dl className="flex items-center justify-between gap-4">
-                                          <dt className="text-gray-500 dark:text-gray-400 text-base font-normal">
+                                        <div className="flex items-center justify-between gap-4">
+                                          <div className="text-gray-500 dark:text-gray-400 text-base font-normal">
                                             Store Pickup
-                                          </dt>
-                                          <dd className="text-gray-900 text-base font-medium dark:text-white">
-                                            $0
-                                          </dd>
-                                        </dl>
+                                          </div>
+                                          <div className="text-gray-900 text-base font-medium dark:text-white">
+                                            0 VND
+                                          </div>
+                                        </div>
 
-                                        <dl className="flex items-center justify-between gap-4">
-                                          <dt className="text-gray-500 dark:text-gray-400 text-base font-normal">
+                                        <div className="flex items-center justify-between gap-4">
+                                          <div className="text-gray-500 dark:text-gray-400 text-base font-normal">
                                             Tax
-                                          </dt>
-                                          <dd className="text-gray-900 text-base font-medium dark:text-white">
-                                            $0
-                                          </dd>
-                                        </dl>
+                                          </div>
+                                          <div className="text-gray-900 text-base font-medium dark:text-white">
+                                            0 VND
+                                          </div>
+                                        </div>
                                       </div>
 
-                                      <dl className="border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4 border-t pt-2">
-                                        <dt className="text-gray-900 text-base font-bold dark:text-white">
+                                      <div className="border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4 border-t pt-2">
+                                        <div className="text-gray-900 text-base font-bold dark:text-white">
                                           Total
-                                        </dt>
-                                        <dd className="text-gray-900 text-base font-bold dark:text-white">
-                                          $
+                                        </div>
+                                        <div className="text-gray-900 text-base font-bold dark:text-white">
                                           {data
                                             ?.reduce(
                                               (total, item) =>
@@ -237,13 +234,14 @@ const DialogCart = (props: DialogCartProps) => {
                                               0
                                             )
                                             .toLocaleString()}
-                                        </dd>
-                                      </dl>
+                                          VND
+                                        </div>
+                                      </div>
                                     </div>
 
                                     <Button
                                       className="w-full"
-                                      type="submit"
+                                      onClick={toggleOpenCheckout}
                                       variant={"primary"}
                                       disabled={data?.length === 0}
                                     >
@@ -269,7 +267,7 @@ const DialogCart = (props: DialogCartProps) => {
                                 </div>
                               </div>
                             </div>
-                          </section>
+                          </div>
                         </DialogDescription>
                       </Fragment>
                     </ScrollArea>

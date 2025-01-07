@@ -85,7 +85,7 @@ const DetailProduct = ({}: Props) => {
 
             <div className="flex items-center">
               <div className="text-lg font-medium">
-                ${detailProduct?.Price.toLocaleString()}
+                {detailProduct?.Price.toLocaleString()} VND
               </div>
               <input className="hidden" defaultValue={detailProduct?.Price} />
             </div>

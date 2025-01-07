@@ -18,3 +18,9 @@ export const ADD_TO_CART_URL = `${ROOT_URL}/Cart/AddToCart`;
 export const GET_CART_URL = `${ROOT_URL}/Cart/GetListCart`;
 export const REMOVE_CART_URL = `${ROOT_URL}/Cart/RemoveCart`;
 export const REMOVE_ALL_CART_URL = `${ROOT_URL}/Cart/RemoveAllCart`;
+
+// Order
+export const ORDER_URL = `${ROOT_URL}/Order`;
+export const PAYMENT_SUCCESS_URL = `${ROOT_URL}/Order/GetPaymentSuccess`;
+export const PAYMENT_FAILED_URL = `${ROOT_URL}/Order/GetPaymentFail`;
+export const LIST_ORDER_URL = `${ROOT_URL}/Order/GetListOrder`;

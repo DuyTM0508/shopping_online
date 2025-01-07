@@ -81,7 +81,6 @@ const EditProfile = () => {
 
       httpService.attachTokenToHeader(token);
       const response = await ProfileService.updateProfile(bodyUpload);
-      console.log(response);
       localStorage.setItem(USER_KEY, JSON.stringify(response.data.Object));
       updateUser(response.data.Object);
       showSuccess("Cập nhật thông tin thành công");
