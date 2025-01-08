@@ -1,5 +1,5 @@
 const BaseUrl = {
-  // ImportBaseURL
+  //!User Side
   HomePage: "/",
   LandingPage: "/landing",
   ProductPage: "/product",
@@ -8,6 +8,9 @@ const BaseUrl = {
   PaymentError: "/payment-error",
   Profile: "/profile",
   EditProfile: "/profile/edit",
+
+  //!Admin Side
+  Admin: "/admin",
 };
 
 export default BaseUrl;

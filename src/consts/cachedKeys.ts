@@ -4,6 +4,7 @@ const cachedKeys = {
   loadingApp: "loadingApp",
 
   cartCount: "cartCount",
+  colorTheme: "color-theme",
 };
 
 export default cachedKeys;

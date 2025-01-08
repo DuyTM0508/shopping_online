@@ -16,6 +16,8 @@ const PaymentSuccess = lazy(() => import("@/pages/paymentSuccess"));
 const PaymentError = lazy(() => import("@/pages/paymentError"));
 const Profile = lazy(() => import("@/pages/profile"));
 const EditProfile = lazy(() => import("@/pages/profile/pages/EditProfile"));
+const Admin = lazy(() => import("@/pages/admin"));
+const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 
 interface Route {
   name: string;
@@ -34,6 +36,7 @@ interface Route {
 }
 
 const routes: Route[] = [
+  //! User Side
   {
     name: "Home Layout",
     path: BaseUrl.HomePage,
@@ -82,6 +85,7 @@ const routes: Route[] = [
     name: "Payment Success Layout",
     path: BaseUrl.PaymentSuccess,
     layout: DefaultLayout,
+    isPrivateRoute: true,
     routeChild: [
       {
         name: "PaymentSuccess",
@@ -94,6 +98,7 @@ const routes: Route[] = [
     name: "Payment Error Layout",
     path: BaseUrl.PaymentError,
     layout: DefaultLayout,
+    isPrivateRoute: true,
     routeChild: [
       {
         name: "PaymentError",
@@ -120,7 +125,6 @@ const routes: Route[] = [
       },
     ],
   },
-
   {
     name: "Login Layout",
     path: BaseUrl.Login,
@@ -130,6 +134,21 @@ const routes: Route[] = [
         name: "Login",
         path: BaseUrl.Login,
         component: Login,
+      },
+    ],
+  },
+
+  //! Admin Side
+  {
+    name: "Admin Layout",
+    path: BaseUrl.Admin,
+    layout: AdminLayout,
+    // isPrivateRoute: true,
+    routeChild: [
+      {
+        name: "Admin",
+        path: BaseUrl.Admin,
+        component: withCheckRole(Admin, [PERMISSION_ENUM.PUBLIC]),
       },
     ],
   },
