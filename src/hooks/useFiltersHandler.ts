@@ -1,4 +1,4 @@
-import { CommonFilters, Order } from "@/interfaces/common";
+import { CommonFilters } from "@/interfaces/common";
 import { cloneDeep, get } from "lodash";
 import React, { useCallback } from "react";
 
@@ -17,16 +17,16 @@ function useFiltersHandler<T>(initialFilters: T & CommonFilters) {
     });
   }, []);
 
-  const handleChangePage = useCallback((event: unknown, newPage: number) => {
-    setFilters((prev) => {
-      return (
-        prev && {
-          ...prev,
-          page: newPage,
-        }
-      );
-    });
-  }, []);
+  // const handleChangePage = useCallback((event: unknown, newPage: number) => {
+  //   setFilters((prev) => {
+  //     return (
+  //       prev && {
+  //         ...prev,
+  //         page: newPage,
+  //       }
+  //     );
+  //   });
+  // }, []);
 
   const handleSelectAllClick = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, rows: any[], key?: string) => {
@@ -41,23 +41,23 @@ function useFiltersHandler<T>(initialFilters: T & CommonFilters) {
     []
   );
 
-  const handleRequestSort = useCallback(
-    (event: React.MouseEvent<unknown>, property: keyof any) => {
-      setFilters((prev) => {
-        if (prev) {
-          const isAsc = prev.orderBy === property && prev?.order === "asc";
-          return {
-            ...prev,
-            order: isAsc ? Order.desc : Order.asc,
-            orderBy: property,
-          };
-        }
+  // const handleRequestSort = useCallback(
+  //   (event: React.MouseEvent<unknown>, property: keyof any) => {
+  //     setFilters((prev) => {
+  //       if (prev) {
+  //         const isAsc = prev.orderBy === property && prev?.order === "asc";
+  //         return {
+  //           ...prev,
+  //           order: isAsc ? Order.desc : Order.asc,
+  //           orderBy: property,
+  //         };
+  //       }
 
-        return prev;
-      });
-    },
-    []
-  );
+  //       return prev;
+  //     });
+  //   },
+  //   []
+  // );
 
   const handleChangeRowsPerPage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,9 +85,9 @@ function useFiltersHandler<T>(initialFilters: T & CommonFilters) {
     filters,
     selected,
     setFilters,
-    handleChangePage,
+    // handleChangePage,
     handleSelectAllClick,
-    handleRequestSort,
+    // handleRequestSort,
     handleChangeRowsPerPage,
     handleResetToInitial,
     handleCheckBox,

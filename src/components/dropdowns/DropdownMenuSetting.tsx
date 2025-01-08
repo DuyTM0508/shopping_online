@@ -9,7 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 
 const DropDownMenuSetting = () => {
-  const { t, i18n } = useTranslation("shared");
+  const { i18n } = useTranslation("shared");
 
   return (
     <DropdownMenu modal={false}>
@@ -27,14 +27,14 @@ const DropDownMenuSetting = () => {
           <div>
             <Button
               variant={"ghost"}
-              className={"hover:bg-gray-400 w-full p-1 text-left"}
+              className={"w-full p-1 text-left hover:bg-gray-400"}
               onClick={() => i18n.changeLanguage("en")}
             >
               {"English"}
             </Button>
             <Button
               variant={"ghost"}
-              className={"hover:bg-gray-400 w-full p-1 text-left"}
+              className={"w-full p-1 text-left hover:bg-gray-400"}
               onClick={() => i18n.changeLanguage("jp")}
             >
               {"Japanese"}

@@ -2,7 +2,7 @@ import CardDataStats from "@/components/CardDataStats";
 import ChartOne from "@/components/charts/ChartOne";
 import ChartThree from "@/components/charts/ChartThree";
 import ChartTwo from "@/components/charts/ChartTwo";
-import MapOne from "@/components/maps/MapOne";
+// import MapOne from "@/components/maps/MapOne";
 
 const AdminPage = () => {
   //!State
@@ -103,7 +103,7 @@ const AdminPage = () => {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
-        <MapOne />
+        {/* <MapOne /> */}
         {/* <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>
