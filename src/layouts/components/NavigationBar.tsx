@@ -1,7 +1,10 @@
 import { ImageSource } from "@/assets";
+import AnimatedLoveMessage from "@/components/animation/AnimatedLoveMessage";
+import CartIcon from "@/components/cart/CartIcon";
 import CommonIcons from "@/components/commonIcons";
 import DialogCart from "@/components/dialogs/DialogCart";
 import DialogConfirm from "@/components/dialogs/DialogConfirm";
+import DialogSearch from "@/components/dialogs/DialogSearch";
 import DropDownMenuProfile from "@/components/dropdowns/DropdownMenuProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -39,24 +42,29 @@ const NavigationBar = () => {
 
   const routes = [
     {
-      label: "Landing Page",
+      label: "Home",
       href: BaseUrl.LandingPage,
     },
     {
-      label: "Product",
+      label: "Shop",
       href: BaseUrl.ProductPage,
+    },
+    {
+      label: "About",
+      href: BaseUrl.About,
     },
   ];
 
   const [openCart, toggleOpenCart, shouldRenderOpenCart] = useToggleDialog();
   const [openAskLogin, toggleAskLogin, shouldRenderAskLogin] =
     useToggleDialog();
+  const [openSearch, toggleSearch, shouldRenderSearch] = useToggleDialog();
 
   //!Function
 
   //!Render
   return (
-    <header className="component:NavigationBar sticky top-0 z-50 bg-white shadow">
+    <header className="component:NavigationBar sticky z-50 bg-white shadow">
       {shouldRenderAskLogout && (
         <DialogConfirm
           isOpen={openAskLogout}
@@ -85,38 +93,39 @@ const NavigationBar = () => {
           onSubmit={() => navigation(BaseUrl.Login)}
         />
       )}
-      <div className="flex w-screen items-center justify-between px-4">
-        <div className="flex items-center">
-          {/* Logo */}
-          <Link to="/" className="px-[32px] text-lg font-bold">
-            <img
-              src={ImageSource.logoApp}
-              className={"h-[72px] w-[40px] 2xl:h-[42px] 2xl:w-[30px]"}
-              alt={"logoApp"}
-            />
-          </Link>
-          {routes.map((el, index) => {
-            const active = path?.includes(el?.href);
-            const classActive = active ? "font-bold bg-bgContainerContent" : "";
+      {shouldRenderSearch && (
+        <DialogSearch isOpen={openSearch} toggle={toggleSearch} />
+      )}
+      <AnimatedLoveMessage />
 
-            return (
-              <Link
-                className={`${
-                  active ? "border-b-2 border-black" : "border-b-0"
-                } typo-24 navigation-bar each-route text-l flex cursor-pointer items-center px-10 py-5 text-black hover:bg-bgContainerContent ${classActive}`}
-                key={index}
-                to={el.href}
-              >
-                <div className={`typo-6 2xl:text-typo-3 whitespace-normal`}>
-                  {el.label}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+      <hr></hr>
 
-        <div className="flex items-center gap-2">
-          {isLogged ? (
+      <div className="flex w-screen items-center justify-around px-4 pt-2">
+        <img
+          src={ImageSource.searchIcon}
+          className="hover:cursor-pointer"
+          onClick={toggleSearch}
+        />
+        <Link
+          to="/"
+          className={`${
+            !isLogged ? "ml-[1.3rem]" : "ml-[6.5rem]"
+          } px-[32px] text-lg font-bold`}
+        >
+          <img
+            src={ImageSource.secondHandLogo}
+            className={"w-14"}
+            alt={"logoApp"}
+          />
+        </Link>
+        <div className="flex items-center justify-normal gap-2">
+          <CartIcon
+            isLogged={isLogged}
+            count={getItemCount}
+            onCartClick={toggleOpenCart}
+            onLoginClick={toggleAskLogin}
+          />
+          {isLogged && (
             <DropDownMenuProfile
               button={
                 <div className={"flex cursor-pointer items-center"}>
@@ -126,48 +135,6 @@ const NavigationBar = () => {
               content={
                 <div>
                   {menu?.map((item) => {
-                    // if (item?.subMenu) {
-                    //   return (
-                    //     <div className="w-full" key={item.label}>
-                    //       <DropdownMenuSub>
-                    //         <DropdownMenuSubTrigger
-                    //           className={"w-full cursor-pointer px-2 text-left"}
-                    //         >
-                    //           {/* <DropdownMenuItem> */}
-                    //           <div
-                    //             className={"typo-3 w-full p-1 text-left"}
-                    //             // onClick={item.onClick}
-                    //           >
-                    //             {item.label}
-                    //           </div>
-                    //           {/* </DropdownMenuItem> */}
-                    //         </DropdownMenuSubTrigger>
-                    //         <DropdownMenuPortal>
-                    //           <DropdownMenuSubContent className="min-w-52">
-                    //             {item?.subMenu?.map(
-                    //               (e: {
-                    //                 label: string;
-                    //                 onClick: () => void;
-                    //               }) => {
-                    //                 return (
-                    //                   <DropdownMenuItem
-                    //                     key={e.label}
-                    //                     className="cursor-pointer"
-                    //                     onClick={() => e?.onClick?.()}
-                    //                   >
-                    //                     <div className={"typo-3 p-1 text-left"}>
-                    //                       {e.label}
-                    //                     </div>
-                    //                   </DropdownMenuItem>
-                    //                 );
-                    //               }
-                    //             )}
-                    //           </DropdownMenuSubContent>
-                    //         </DropdownMenuPortal>
-                    //       </DropdownMenuSub>
-                    //     </div>
-                    //   );
-                    // }
                     return (
                       <DropdownMenuItem key={item.label}>
                         <div className="w-full" key={item.label}>
@@ -186,55 +153,62 @@ const NavigationBar = () => {
                 </div>
               }
             />
-          ) : (
-            <>
-              <Button
-                variant={"outline"}
-                className={"text-black"}
-                onClick={() => navigation(BaseUrl.Login)}
-                // onClick={toggleLogin}
-              >
-                Login
-              </Button>
-            </>
           )}
-          <div className="flex items-center">
-            {isLogged && (
-              <Avatar
-                // onClick={() => navigation(BaseUrl.Profile)}
-                className="bg-blackA1 inline-flex h-11 w-11 cursor-pointer select-none items-center justify-center overflow-hidden rounded-full align-middle"
-              >
-                <AvatarImage
-                  className="h-full w-full rounded-[inherit] object-cover 2xl:h-[24px] 2xl:w-[24px]"
-                  src={user?.Avatar}
-                  alt="avatar"
-                  onClick={() => navigation(BaseUrl.Profile)}
-                />
-                <AvatarFallback className="text-violet11 leading-1 flex h-full w-full items-center justify-center border bg-white text-[15px] font-medium text-black">
-                  DT
-                </AvatarFallback>
-              </Avatar>
-            )}
-            <div className={"typo-6 2xl:text-typo-4 mx-2 cursor-default"}>
-              {user?.FullName}
-            </div>
-          </div>
-          <div className="flex items-center justify-normal gap-2">
-            <div className="relative">
-              <CommonIcons.ShoppingCart
-                className={"h-[20px] w-[20px] hover:cursor-pointer"}
-                color="red"
-                onClick={isLogged ? toggleOpenCart : toggleAskLogin}
-              />
-            </div>
-            <div
-              className="absolute right-[11px] top-[14px] flex max-h-[18px] max-w-[20px] items-center justify-center overflow-hidden rounded-full bg-yellow-300 p-1"
-              style={{ fontSize: "10px" }}
+          {isLogged && (
+            <Avatar
+              // onClick={() => navigation(BaseUrl.Profile)}
+              className="bg-blackA1 inline-flex h-11 w-11 cursor-pointer select-none items-center justify-center overflow-hidden rounded-full align-middle"
             >
-              {getItemCount || 0}
-            </div>
-          </div>
+              <AvatarImage
+                className="h-full w-full rounded-[inherit] object-cover 2xl:h-[24px] 2xl:w-[24px]"
+                src={user?.Avatar}
+                alt="avatar"
+                onClick={() => navigation(BaseUrl.Profile)}
+              />
+              <AvatarFallback className="text-violet11 leading-1 flex h-full w-full items-center justify-center border bg-white text-[15px] font-medium text-black">
+                DT
+              </AvatarFallback>
+            </Avatar>
+          )}
         </div>
+      </div>
+
+      <div className="flex w-screen items-center justify-center px-2">
+        <div className="flex items-center">
+          {routes.map((el, index) => {
+            const active = path?.includes(el?.href);
+            const classActive = active ? "font-bold" : "";
+
+            return (
+              <Link
+                className={`${
+                  active ? "underline" : "border-b-0"
+                } typo-24 navigation-bar each-route text-l flex cursor-pointer items-center px-10 py-5 text-black hover:bg-bgContainerContent ${classActive}`}
+                key={index}
+                to={el.href}
+              >
+                <div
+                  className={`typo-6 2xl:text-typo-3 typo-4 whitespace-normal hover:underline`}
+                >
+                  {el.label}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex items-center justify-center gap-2 pb-2">
+        {!isLogged && (
+          <>
+            <Button
+              variant={"outline"}
+              className={"text-black"}
+              onClick={() => navigation(BaseUrl.Login)}
+            >
+              Login
+            </Button>
+          </>
+        )}
       </div>
     </header>
   );

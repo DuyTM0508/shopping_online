@@ -1,97 +1,70 @@
-import { CommonFilters } from "@/interfaces/common";
-import { cloneDeep, get } from "lodash";
 import React, { useCallback } from "react";
+import { cloneDeep, isArray } from "lodash";
 
-function useFiltersHandler<T>(initialFilters: T & CommonFilters) {
-  //! State
-  const [filters, setFilters] = React.useState(initialFilters);
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+function useFiltersHandler(initialFilters: any) {
+  const [filters, setFilters] = React.useState<any>(initialFilters);
+  const [rowsSelected, setRowsSelected] = React.useState<(string | number)[]>(
+    []
+  );
 
-  const handleCheckBox = useCallback((item: unknown, key: any) => {
-    const itemChecked = get(item, key);
-    setSelected((prev) => {
-      if (prev.includes(itemChecked)) {
-        return prev.filter((el) => itemChecked !== el);
+  const handleChangePage = (value: number) => {
+    setFilters((prev: object) => {
+      return {
+        ...prev,
+        page: value,
+      };
+    });
+  };
+
+  const resetToInitialFilters = useCallback(() => {
+    setFilters(cloneDeep(initialFilters));
+  }, [initialFilters]);
+
+  const handleSelectAll = useCallback((data: any) => {
+    setRowsSelected((prev) => {
+      if (isArray(prev) && prev.length === data.length) {
+        return [];
       }
-      return [...prev, itemChecked];
+      return data;
     });
   }, []);
 
-  // const handleChangePage = useCallback((event: unknown, newPage: number) => {
-  //   setFilters((prev) => {
-  //     return (
-  //       prev && {
-  //         ...prev,
-  //         page: newPage,
-  //       }
-  //     );
-  //   });
-  // }, []);
-
-  const handleSelectAllClick = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>, rows: any[], key?: string) => {
-      if (event.target.checked) {
-        const newSelected = rows.map((n) => get(n, key || "id"));
-        setSelected(newSelected);
-        return;
-      }
-
-      setSelected([]);
-    },
-    []
-  );
-
-  // const handleRequestSort = useCallback(
-  //   (event: React.MouseEvent<unknown>, property: keyof any) => {
-  //     setFilters((prev) => {
-  //       if (prev) {
-  //         const isAsc = prev.orderBy === property && prev?.order === "asc";
-  //         return {
-  //           ...prev,
-  //           order: isAsc ? Order.desc : Order.asc,
-  //           orderBy: property,
-  //         };
-  //       }
-
-  //       return prev;
-  //     });
-  //   },
-  //   []
-  // );
-
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFilters((prev) => {
-        if (prev) {
-          return {
-            ...prev,
-            rowsPerPage: parseInt(event.target.value, 10),
-            page: 0,
-          };
+  const handleSelectOne = useCallback((data: any) => {
+    setRowsSelected((prev) => {
+      if (isArray(prev)) {
+        const foundIndex = prev.findIndex((elm: any) => elm?.id === data?.id);
+        if (foundIndex !== -1) {
+          const nextSelectedRow = cloneDeep(prev);
+          nextSelectedRow.splice(foundIndex, 1);
+          return nextSelectedRow;
+        } else {
+          return [...prev, data];
         }
+      }
+      return prev;
+    });
+  }, []);
 
-        return prev;
-      });
-    },
-    []
-  );
+  const handleSearch = useCallback((nextFilters: any) => {
+    const nextFiltersTemp = cloneDeep(nextFilters);
 
-  const handleResetToInitial = useCallback(() => {
-    setFilters(cloneDeep(initialFilters));
-    setSelected([]);
-  }, [initialFilters]);
+    if ("page" in nextFiltersTemp) {
+      nextFiltersTemp["page"] = 1;
+    }
+    setFilters(nextFiltersTemp);
+  }, []);
 
   return {
     filters,
-    selected,
+    rowsSelected,
+    setRowsSelected,
     setFilters,
-    // handleChangePage,
-    handleSelectAllClick,
+    resetToInitialFilters,
+    handleSelectAll,
+    handleSelectOne,
+    handleChangePage,
+    handleSearch,
     // handleRequestSort,
-    handleChangeRowsPerPage,
-    handleResetToInitial,
-    handleCheckBox,
   };
 }
-
 export default useFiltersHandler;

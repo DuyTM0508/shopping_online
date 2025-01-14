@@ -41,12 +41,6 @@ const AddToCartForm = ({ handleAddToCart }: Props) => {
               />
             )}
             <Form>
-              {/* <label
-                htmlFor="quantity"
-                className="text-gray-700 block text-sm font-medium"
-              >
-                Quantity: 1
-              </label> */}
               <Button
                 className="mt-4 rounded-md bg-black px-6 py-2 text-lg text-white"
                 variant={"destructive"}

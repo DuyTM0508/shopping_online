@@ -10,6 +10,7 @@ import {
   ResponseGetListProduct,
 } from "../interfaces/product";
 import productService from "../productService";
+import cachedKeys from "@/consts/cachedKeys";
 
 /********************************************************
  * SNIPPET GENERATED
@@ -26,13 +27,13 @@ import productService from "../productService";
 //* Check parse body request
 const parseRequest = (filters?: IProductRequest) => {
   return cloneDeep({
-    PageSize: filters?.PageSize || 10,
+    PageSize: filters?.PageSize || 50,
     CurrentPage: filters?.CurrentPage || 1,
     TextSearch: filters?.TextSearch || "",
-    Status: filters?.Status || 1,
+    Status: filters?.Status || 0,
     Category: filters?.Category || "",
-    MinPrice: filters?.MinPrice || 0,
-    MaxPrice: filters?.MaxPrice || 0,
+    MinPrice: filters?.MinPrice || null,
+    MaxPrice: filters?.MaxPrice || null,
     SortColumn: filters?.SortColumn || "",
     SortDirection: filters?.SortDirection || "",
   });
@@ -102,10 +103,10 @@ const useGetListProduct = (
 
       //* Check condition of response here to set data
       if (saveData) {
-        setTotalPage(response.data.PageSize);
-        setTotal(response?.data?.Total);
-        // save(cachedKeys.totalPageOrder, response.data.totalPage);
-        // save(cachedKeys.totalOrderCount, response?.data?.count);
+        setTotalPage(response.data.Object.PageSize);
+        setTotal(response?.data?.Object.Total);
+        save(cachedKeys.totalPageCount, response.data.Object.PageSize);
+        save(cachedKeys.totalProductCount, response?.data?.Object.Total);
       }
 
       //* Check condition of response here to set data
@@ -124,7 +125,9 @@ const useGetListProduct = (
           //   }
         }
 
-        setHasMore(response?.data?.CurrentPage < response?.data?.PageSize);
+        setHasMore(
+          response?.data?.Object.CurrentPage < response?.data?.Object.PageSize
+        );
       }
     },
     [filters.CurrentPage, save, saveData]
@@ -154,7 +157,10 @@ const useGetListProduct = (
       const responses = await Promise.allSettled(listRequest);
       const allData = responses.map((el) => {
         if (el.status === "fulfilled") {
-          setHasMore(el?.value?.data?.CurrentPage < el?.value?.data?.PageSize);
+          setHasMore(
+            el?.value?.data?.Object.CurrentPage <
+              el?.value?.data?.Object.PageSize
+          );
 
           return isArray(el?.value?.data) ? el?.value?.data : [];
         }
@@ -233,6 +239,7 @@ const useGetListProduct = (
     loadingMore,
     hasMore,
     setData,
+    fetch,
   };
 };
 

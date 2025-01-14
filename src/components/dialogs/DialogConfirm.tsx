@@ -44,7 +44,7 @@ const DialogConfirm = (props: DialogConfirmProps) => {
     <Dialog open={isOpen} onOpenChange={toggle}>
       <DialogOverlay>
         <DialogPortal>
-          <DialogContent className="max-w-lg">
+          <DialogContent className="max-w-2xl">
             <Formik initialValues={{}} onSubmit={onSubmit || (() => {})}>
               {({ isSubmitting }) => {
                 return (

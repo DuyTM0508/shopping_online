@@ -34,14 +34,14 @@ const PromoSectionLarge = ({
       >
         <div className={`absolute inset-0 bg-black opacity-60`}></div>
         <div className="container relative z-10">
-          <div className="flex justify-center">
-            <div className="max-w-2xl text-center">
+          <div className="flex justify-start px-13">
+            <div className="mt-60 max-w-2xl text-start">
               <div className="mb-4 text-3xl font-bold text-white md:text-4xl">
                 {title}
               </div>
               <div className="mb-6 text-lg text-white">{full_description}</div>
               <Button
-                className="btn hover:bg-gray-200 rounded-lg bg-white px-6 py-3 text-lg text-black transition"
+                className="btn rounded-lg bg-white px-6 py-3 text-lg text-black transition hover:bg-gray-200"
                 variant={"primary"}
                 onClick={() => navigate(linkTo || BaseUrl.HomePage)}
               >

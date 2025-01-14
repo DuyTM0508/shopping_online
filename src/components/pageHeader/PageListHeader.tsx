@@ -1,78 +1,120 @@
-import FormikField from "@/components/customFieldsFormik/FormikField";
-import InputField from "@/components/customFieldsFormik/InputField";
+import { ORDER_BY } from "@/consts/common";
+import { ProductList } from "@/services/modules/product/interfaces/product";
 import { Form, Formik } from "formik";
-import { useMemo } from "react";
 import CommonIcons from "../commonIcons";
+import FormikField from "../customFieldsFormik/FormikField";
+import SelectField from "../customFieldsFormik/SelectField";
+import { Button } from "../ui/button";
+import { showError } from "@/helpers/toast";
 
 export interface IValueFormPageHeader {
-  search?: string;
-  sortBy?: string;
+  SortColumn?: string;
+  SortDirection?: string;
+  TextSearch?: string;
 }
 interface IPropsPageListLayout {
   pageName?: string;
   placeholderSearch?: string;
-  onClickSearch: (value: IValueFormPageHeader) => void;
   onClickAdd?: () => void;
   initValue?: IValueFormPageHeader;
   searchClass?: string;
   optionsSortBy?: {
     label: string;
     value: string;
-    type?: "id" | "other";
   }[];
+  dataProduct?: ProductList[];
+  setFilters: (values: any) => void;
+  onClickSearch: (value: IValueFormPageHeader) => void;
 }
 
 const PageListHeader = (props: IPropsPageListLayout) => {
-  const { pageName, placeholderSearch, onClickSearch, searchClass, initValue } =
-    props;
-
-  const initValueFormik = useMemo(() => {
-    return {
-      search: initValue?.search || "",
-      sortBy: initValue?.sortBy || "",
-    };
-  }, [initValue]);
+  const { initValue, optionsSortBy, onClickSearch } = props;
 
   return (
     <div className="component:PageListHeader mt-2 pb-2">
       <Formik
-        initialValues={initValueFormik}
+        initialValues={{
+          SortColumn: initValue?.SortColumn || "",
+          SortDirection: initValue?.SortDirection || "",
+        }}
         enableReinitialize
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values) => {
           try {
-            setSubmitting(true);
+            // setFilters((prevFilters: any) => ({
+            //   ...prevFilters,
+            //   SortColumn: values.SortColumn,
+            //   SortDirection: values.SortDirection,
+            // }));
             onClickSearch?.(values);
-          } finally {
-            setSubmitting(false);
+          } catch (error) {
+            showError(error);
           }
         }}
       >
-        {({}) => {
+        {({ setFieldValue }) => {
           return (
-            <Form className="flex items-center justify-between gap-12">
-              <div
-                className={
-                  "typo-7 2xl:text-typo-5 text-nowrap font-bold text-text-four"
-                }
-              >
-                {pageName}
-              </div>
-              <div className={`flex flex-grow ${searchClass} gap-6`}>
-                <div className="grid w-full grid-cols-6 gap-6">
-                  <div className="col-span-6 mr-[33px] 2xl:flex">
-                    <FormikField
-                      component={InputField}
-                      name="search"
-                      placeholder={placeholderSearch}
-                      className={"text-text-secondary 2xl:h-9"}
-                      extraLeft={
-                        <CommonIcons.Search
-                          // onClick={() => onClickSearch(values)}
-                          className="font-light text-icon-search 2xl:h-4 2xl:w-4"
-                        />
+            <Form>
+              <div className="flex flex-col justify-between gap-5 border-b pb-3 sm:flex-col sm:items-start sm:justify-start sm:gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-3 2xl:flex-row 2xl:items-center 2xl:justify-between 2xl:gap-3">
+                <div className="flex items-center gap-7">
+                  <div>Filter:</div>
+                  <div>Avaiability</div>
+                  <div>Price</div>
+                </div>
+
+                <div className="flex items-center gap-7">
+                  <FormikField
+                    component={SelectField}
+                    name="SortColumn"
+                    icon={
+                      <CommonIcons.ChevronDown
+                        className="ml-2 shrink-0 text-main-primary 2xl:h-auto 2xl:w-[15.6px]"
+                        size={36}
+                      />
+                    }
+                    shouldHideSearch
+                    // hideIconCheck
+                    placeholder={"Sort by"}
+                    className={"text-text-secondary"}
+                    options={optionsSortBy || []}
+                    afterOnChange={(selectedOption: any) => {
+                      if (!selectedOption) {
+                        setFieldValue("SortDirection", undefined);
                       }
-                    />
-                  </div>
+                      setFieldValue("SortDirection", ORDER_BY?.ASC);
+                    }}
+                  />
+
+                  <FormikField
+                    component={SelectField}
+                    name="SortDirection"
+                    icon={
+                      <CommonIcons.ChevronDown
+                        className="ml-2 shrink-0 text-main-primary 2xl:h-auto 2xl:w-[15.6px]"
+                        size={36}
+                      />
+                    }
+                    placeholder={"Order by"}
+                    className={"text-text-secondary"}
+                    shouldHideSearch
+                    options={[
+                      {
+                        label: "Increasing",
+                        value: ORDER_BY.ASC,
+                      },
+                      {
+                        label: "Decreasing",
+                        value: ORDER_BY.DESC,
+                      },
+                    ]}
+                  />
+
+                  <Button
+                    className="w-full min-w-0 bg-main-primary bg-opacity-10 text-main-primary 2xl:h-[36px]"
+                    type={"submit"}
+                    variant={"secondary"}
+                  >
+                    Sort
+                  </Button>
                 </div>
               </div>
             </Form>

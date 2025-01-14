@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/user/user-01.png';
+import { useAuth } from "@/providers/AuthenticationProvider";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import ClickOutside from "../ClickOutside";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const auth = useAuth();
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,13 +16,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {auth?.user?.FullName}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">{auth?.user?.Birthday}</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
+          <img src={auth?.user?.Avatar} alt="User" />
         </span>
 
         <svg
@@ -119,7 +120,10 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            onClick={auth?.logout}
+          >
             <svg
               className="fill-current"
               width="22"

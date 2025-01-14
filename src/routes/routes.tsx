@@ -18,6 +18,13 @@ const Profile = lazy(() => import("@/pages/profile"));
 const EditProfile = lazy(() => import("@/pages/profile/pages/EditProfile"));
 const Admin = lazy(() => import("@/pages/admin"));
 const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
+const AboutPage = lazy(() => import("@/pages/about"));
+const AdminProduct = lazy(
+  () => import("@/pages/admin/pages/adminProduct/AdminProduct")
+);
+const AddNewProduct = lazy(
+  () => import("@/pages/admin/pages/addNewProduct/AddNewProduct")
+);
 
 interface Route {
   name: string;
@@ -72,12 +79,12 @@ const routes: Route[] = [
       {
         name: "ProductPage",
         path: BaseUrl.ProductPage,
-        component: withCheckRole(ProductPage, [PERMISSION_ENUM.PUBLIC]),
+        component: ProductPage,
       },
       {
         name: "ProductDetail",
         path: `${BaseUrl.ProductPage}/:id`,
-        component: withCheckRole(ProductDetail, [PERMISSION_ENUM.PUBLIC]),
+        component: ProductDetail,
       },
     ],
   },
@@ -126,6 +133,18 @@ const routes: Route[] = [
     ],
   },
   {
+    name: "About Layout",
+    path: BaseUrl.About,
+    layout: DefaultLayout,
+    routeChild: [
+      {
+        name: "About",
+        path: BaseUrl.About,
+        component: AboutPage,
+      },
+    ],
+  },
+  {
     name: "Login Layout",
     path: BaseUrl.Login,
     layout: Fragment,
@@ -143,12 +162,27 @@ const routes: Route[] = [
     name: "Admin Layout",
     path: BaseUrl.Admin,
     layout: AdminLayout,
-    // isPrivateRoute: true,
+    isPrivateRoute: true,
     routeChild: [
       {
         name: "Admin",
         path: BaseUrl.Admin,
-        component: withCheckRole(Admin, [PERMISSION_ENUM.PUBLIC]),
+        component: withCheckRole(Admin, [PERMISSION_ENUM.ADMIN]),
+      },
+      {
+        name: "AdminProduct",
+        path: BaseUrl.AdminProduct,
+        component: AdminProduct,
+      },
+      {
+        name: "AddNewProduct",
+        path: BaseUrl.AddNewProduct,
+        component: AddNewProduct,
+      },
+      {
+        name: "EditProduct",
+        path: `${BaseUrl.AddNewProduct}/:id`,
+        component: AddNewProduct,
       },
     ],
   },

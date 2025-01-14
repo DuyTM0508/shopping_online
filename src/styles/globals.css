@@ -145,10 +145,10 @@
   @apply dark:!border-meta-4 dark:!bg-meta-4 dark:!text-bodydark1;
 }
 .apexcharts-xaxistooltip-bottom:after {
-  @apply dark:!border-b-meta-4 !border-b-gray;
+  @apply !border-b-gray dark:!border-b-meta-4;
 }
 .apexcharts-xaxistooltip-bottom:before {
-  @apply dark:!border-b-meta-4 !border-b-gray;
+  @apply !border-b-gray dark:!border-b-meta-4;
 }
 .apexcharts-xaxistooltip-bottom {
   @apply !rounded !border-none !bg-gray !text-xs !font-medium !text-black dark:!text-white;
@@ -171,7 +171,7 @@
   @apply dark:!border-b-boxdark;
 }
 .flatpickr-calendar {
-  @apply dark:!bg-boxdark dark:!text-bodydark dark:!shadow-8 2xsm:!w-auto !p-6;
+  @apply !p-6 dark:!bg-boxdark dark:!text-bodydark dark:!shadow-8 2xsm:!w-auto;
 }
 .flatpickr-day {
   @apply dark:!text-bodydark dark:hover:!border-meta-4 dark:hover:!bg-meta-4;
@@ -208,7 +208,7 @@ span.flatpickr-weekday,
 .flatpickr-day:focus,
 .flatpickr-day.prevMonthDay:focus,
 .flatpickr-day.nextMonthDay:focus {
-  @apply dark:!border-meta-4 dark:!bg-meta-4 border-gray bg-gray;
+  @apply border-gray bg-gray dark:!border-meta-4 dark:!bg-meta-4;
 }
 .flatpickr-day.selected,
 .flatpickr-day.startRange,
@@ -244,7 +244,7 @@ span.flatpickr-weekday,
 }
 
 .map-btn .jvm-zoom-btn {
-  @apply w-7.5 h-7.5 border-stroke dark:border-strokedark text-body dark:text-bodydark flex items-center justify-center rounded border bg-white px-0 pb-0.5 pt-0 text-2xl leading-none hover:border-primary hover:bg-primary hover:text-white dark:hover:border-primary dark:hover:text-white;
+  @apply flex h-7.5 w-7.5 items-center justify-center rounded border border-stroke bg-white px-0 pb-0.5 pt-0 text-2xl leading-none text-body hover:border-primary hover:bg-primary hover:text-white dark:border-strokedark dark:text-bodydark dark:hover:border-primary dark:hover:text-white;
 }
 .mapOne .jvm-zoom-btn {
   @apply bottom-0 left-auto top-auto;
@@ -299,6 +299,18 @@ span.flatpickr-weekday,
 .typo-2 {
   font-size: 30px;
   line-height: 30px;
+}
+
+.typo-3 {
+  font-size: 13px;
+}
+
+.typo-4 {
+  font-size: 14px;
+}
+
+.typo-5 {
+  font-size: 12px;
 }
 
 /* .truncate-title {

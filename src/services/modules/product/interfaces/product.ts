@@ -16,8 +16,8 @@ export interface IProductRequest {
   TextSearch: string;
   Status: number;
   Category: string;
-  MinPrice: number;
-  MaxPrice: number;
+  MinPrice: number | null;
+  MaxPrice: number | null;
   SortColumn: string;
   SortDirection: string;
 }
@@ -25,10 +25,11 @@ export interface IProductRequest {
 export interface IProductList {
   Object: {
     ProductList: ProductList[];
+    Total: number;
+    CurrentPage: number;
+    PageSize: number;
+    TotalPage: number;
   };
-  Total: number;
-  PageSize: number;
-  CurrentPage: number;
 }
 
 export interface ProductList {

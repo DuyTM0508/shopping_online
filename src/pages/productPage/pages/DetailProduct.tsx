@@ -3,7 +3,6 @@ import LoadingScreen from "@/components/loadingScreen";
 import AddToCartForm from "@/components/product/addToCartForm";
 import ProductGallery from "@/components/product/productGallery";
 import ProductRating from "@/components/product/productRating";
-import ReviewSummaryChart from "@/components/reviews/reviewSummaryChart";
 import BaseUrl from "@/consts/baseUrl";
 import { showError, showSuccess } from "@/helpers/toast";
 import useToggleDialog from "@/hooks/useToggleDialog";
@@ -12,17 +11,11 @@ import httpService from "@/services/httpService";
 import cartService from "@/services/modules/cart/cartService";
 import useGetDetailProduct from "@/services/modules/product/hooks/useGetDetailProduct";
 import { useCartStore } from "@/stores/useStores";
+import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
-import data from "../../../../public/data.json";
+import { ShippingBenefits } from "../components/BenefitCard";
 
 interface Props {}
-
-let productReviews = data.reviews
-  .filter((x) => x.productID == "01")
-  .map((review) => ({
-    ...review,
-    productID: Number(review.productID),
-  }));
 
 const DetailProduct = ({}: Props) => {
   //!State
@@ -68,54 +61,69 @@ const DetailProduct = ({}: Props) => {
           onSubmit={() => navigation(BaseUrl.Login)}
         />
       )}
-      <div className="component:DetailProduct container mx-auto p-6">
-        <div className="flex flex-wrap lg:flex-nowrap">
+      <div className="container mx-auto px-4 py-10 lg:px-8">
+        <div className="flex flex-col gap-10 lg:flex-row">
           <ProductGallery
             images={detailProduct?.FileList}
-            defaultImage={detailProduct?.Image}
+            defaultImage={detailProduct?.Image || ""}
           />
 
-          <div className="w-full lg:w-1/2 lg:pl-6">
-            <div className="mt-4 text-2xl font-semibold">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full lg:w-1/2"
+          >
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-3xl font-bold text-gray-900"
+            >
               {detailProduct?.Name}
-            </div>
-            <div className="text-gray-700 mb-5">
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="mt-4"
+            >
+              <ProductRating
+                rating={detailProduct?.Rating}
+                reviews={detailProduct?.Reviews}
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="mt-6 text-2xl font-bold text-gray-900"
+            >
+              {detailProduct?.Price.toLocaleString()} VND
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-6 text-gray-600"
+            >
               {detailProduct?.Description}
-            </div>
+            </motion.p>
 
-            <div className="flex items-center">
-              <div className="text-lg font-medium">
-                {detailProduct?.Price.toLocaleString()} VND
-              </div>
-              <input className="hidden" defaultValue={detailProduct?.Price} />
-            </div>
-
-            <>
-              <div className="sr-only">Reviews</div>
-              <div className="mt-3 flex items-center">
-                <ProductRating rating={detailProduct?.Rating} />
-                <span className="text-gray-600 ml-3">
-                  {detailProduct?.Reviews} reviews
-                </span>
-              </div>
-            </>
-
-            {/* {sizes.size !== 0 && <ProductSizes sizes={sizes} />} */}
-
-            <AddToCartForm handleAddToCart={handleAddToCart} />
-          </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <AddToCartForm handleAddToCart={handleAddToCart} />
+            </motion.div>
+          </motion.div>
         </div>
 
-        <div className="mt-10">
-          <div className="lg:w-1/2">
-            <div className="text-lg font-semibold">Product Description</div>
-            <div className="text-gray-700 mt-2">
-              {detailProduct?.Description}
-            </div>
-          </div>
+        <div className="mt-20">
+          <ShippingBenefits />
         </div>
-
-        <ReviewSummaryChart reviews={productReviews} />
       </div>
     </>
   );

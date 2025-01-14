@@ -5,11 +5,15 @@ export const LANG_ENUM = {
 
 export enum PERMISSION_ENUM {
   PUBLIC = "PUBLIC",
-  ADMIN = "admin",
+  ADMIN = "1",
   USER = "user",
-  APP_MANAGER = "appmanager",
-  SELLER = "seller",
-  BUYER = "buyer",
+  SELLER = "2",
+  BUYER = "3",
+}
+
+export enum ORDER_BY {
+  DESC = "DESC",
+  ASC = "ASC",
 }
 
 export const PermissionOptions = Object.entries(PERMISSION_ENUM)

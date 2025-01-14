@@ -14,7 +14,7 @@ import { errorHandler } from "@/helpers/errors";
  * - checkConditionPass()
  */
 const useGetDetailProduct = (
-  id: string,
+  id: string | undefined,
   options: { isTrigger?: boolean; cachedKey?: string } = {
     isTrigger: true,
     cachedKey: "",
@@ -40,7 +40,9 @@ const useGetDetailProduct = (
       return new Promise((resolve, reject) => {
         (async () => {
           try {
-            const response = await productService.getProductDetail(id);
+            const response = await productService.getProductDetail(
+              id as string
+            );
             resolve(response);
           } catch (error) {
             setError(error);
@@ -66,7 +68,7 @@ const useGetDetailProduct = (
     try {
       setRefetching(true);
       signal.current = new AbortController();
-      const response = await productService.getProductDetail(id);
+      const response = await productService.getProductDetail(id as string);
       checkConditionPass(response);
     } catch (error: any) {
       showError(errorHandler(error));

@@ -12,9 +12,9 @@ const DefaultLayout = (props: DefaultLayoutProps) => {
   const auth = useAuth();
   return (
     <main className="component:DefaultLayout h-screen w-screen">
-      <NavigationBar />
       <ScrollArea className="main-container h-full w-full bg-bgContainerContent">
         {/* {auth.isLogged && <SideBar />} */}
+        <NavigationBar />
         <div
           className={cn("main-container__content", auth.isLogged && "logged")}
         >

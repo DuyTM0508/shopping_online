@@ -16,9 +16,12 @@ import * as Yup from "yup";
 const Login = () => {
   //! State
   const { toast } = useToast();
-  const { login, isLogged } = useAuth();
+  const { login, isLogged, user } = useAuth();
 
   //! Render
+  if (isLogged && user?.RoleType === 1) {
+    return <Navigate to={BaseUrl.Admin} />;
+  }
   if (isLogged) {
     return <Navigate to={BaseUrl.HomePage} />;
   }
@@ -48,7 +51,7 @@ const Login = () => {
             setSubmitting(true);
             const { username, password } = values;
             await sleepTime(2000);
-            await login({
+            login({
               username,
               password,
             });
@@ -65,7 +68,7 @@ const Login = () => {
         {({ isSubmitting }) => {
           return (
             <div className="component:FormLogin w-full">
-              <Form className="md:px-15 col-span-3 flex w-full min-w-[400px] items-center justify-center">
+              <Form className="col-span-3 flex w-full min-w-[400px] items-center justify-center md:px-15">
                 <CardContent className="flex w-3/5 flex-col gap-5 p-0">
                   <div className="typo-27 text-center font-semibold">
                     {"Sign in"}
@@ -122,13 +125,23 @@ const Login = () => {
                   <div className="typo-13 text-center font-light">{"Or"}</div>
 
                   <div className="flex flex-col gap-2">
-                    <Button className="typo-13 bg-text-primary">
+                    <Button className="typo-13 gap-2 bg-text-primary text-white">
+                      <img
+                        src={ImageSource.googleLogo}
+                        alt="googleIcon"
+                        className="h-5 w-5"
+                      />
                       {"Sign up with Google"}
                     </Button>
                     <Button
-                      className={"typo-13 bg-text-primary"}
+                      className={"typo-13 gap-1 bg-text-primary text-white"}
                       // onClick={() => navigate(BaseUrl.SignUp)}
                     >
+                      <img
+                        src={ImageSource.fbLogo}
+                        alt="facebookIcon"
+                        className="h-5 w-5"
+                      />
                       {"Sign up with Facebook"}
                     </Button>
                   </div>
@@ -148,11 +161,11 @@ const Login = () => {
       }
     >
       <div className="col-span-5 flex h-full flex-col justify-between px-2 py-5 md:col-span-2">
-        <div className={"flex grow flex-col justify-evenly"}>
+        <div className={"flex grow flex-col items-center justify-evenly"}>
           <img
-            src={ImageSource.logoApp}
+            src={ImageSource.secondHandLogo}
             alt="logoApp"
-            className="mb-10 h-40 w-full p-5"
+            className="mb-10 flex h-40 w-40 justify-center p-5"
           />
           {renderFormik()}
           <div />

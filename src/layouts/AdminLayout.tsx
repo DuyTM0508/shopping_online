@@ -1,9 +1,16 @@
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/providers/AuthenticationProvider";
 import { ReactNode, useState } from "react";
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const auth = useAuth();
+
+  if (auth.user?.RoleType !== 1) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -21,7 +28,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className="max-w-screen-2xl mx-auto p-4 md:p-6 2xl:p-10">
+            <div className={cn("mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10")}>
               {children}
             </div>
           </main>

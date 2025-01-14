@@ -48,6 +48,7 @@ interface SelectFieldProps {
     valueOption?: SelectOption[],
     deleteItem?: any
   ) => void;
+  onChange?: (e: any) => void;
 }
 
 const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
@@ -78,6 +79,7 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
     icon,
     multiple,
     onSelect,
+    onChange, // Added here
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -92,13 +94,8 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
 
   //! Function
 
-  //* Handle click outside - close popover - for some reasons: onblur popover not working
-  //* 1.1 open = true | prevOpen = false;
-  //* 2.1 open = false | prevOpen = true;
   if (prevOpen !== open) {
     setPrevOpen(open);
-    //* 1.2 open = true | prevOpen = true;
-    //* 2.2 open = false | prevOpen = false;
 
     if (!open) {
       setFieldTouched(name, true);
@@ -133,6 +130,7 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
                         onSelect
                           ? onSelect(el, newValue, el)
                           : setFieldValue(name, newValue);
+                        onChange?.(newValue); // Trigger onChange here
                       }}
                     />
                   </div>
@@ -272,6 +270,7 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
                             afterOnChange &&
                               !onSelect &&
                               afterOnChange(newValue);
+                            onChange?.(newValue); // Trigger onChange here
                             setOpen(false);
                             return;
                           }
@@ -283,6 +282,7 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
                           await setFieldValue(name, result);
                           afterOnChange &&
                             afterOnChange(result ? option : undefined);
+                          onChange?.(result ? option : undefined); // Trigger onChange here
                           setOpen(false);
                         }}
                       >

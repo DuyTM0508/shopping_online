@@ -11,7 +11,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['"Noto Sans JP"', "sans-serif"],
+      sans: ['"Georgia Pro"', "Georgia", "sans-serif"],
     },
     container: {
       center: true,
@@ -194,6 +194,10 @@ module.exports = {
           "0%, 100%": { transform: "rotate(360deg)" },
           "50%": { transform: "rotate(0deg)" },
         },
+        shine: {
+          "0%": { left: "-100%" },
+          "100%": { left: "100%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -203,6 +207,7 @@ module.exports = {
         "spin-1.5": "spin 1.5s linear infinite",
         "spin-2": "spin 2s linear infinite",
         "spin-3": "spin 3s linear infinite",
+        shine: "shine 3s ease-in-out infinite",
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],

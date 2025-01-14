@@ -1,50 +1,36 @@
+import { ImageSource } from "@/assets";
 import { Link } from "react-router-dom";
+import CommonIcons from "../commonIcons";
 
-interface Props {
-  thumb_src: string;
-  title: string;
-  collection: string;
-  classList?: string;
-  cta?: string;
-}
-
-export default function CardProduct({
-  thumb_src,
-  title,
-  collection,
-  classList,
-  cta,
-}: Props) {
-  const baseURL = import.meta.env.BASE_URL;
-  const classBody = cta ? "flex items-end" : "text-center w-100 pt-80";
-
+export default function CollectionSection() {
   return (
-    <Link to="#" className={`block ${classList}`}>
-      <div className="card-background card relative mb-4 lg:mb-0">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${baseURL}${thumb_src})`,
-          }}
-        ></div>
-
-        {/* Overlay */}
-        <div className={`relative z-10 rounded-2xl p-4 ${classBody}`}>
-          <div className="d-block mt-10">
-            <div className="mb-1 font-semibold text-white">{collection}</div>
-            <div className="font-black text-white">{title}</div>
-            {/* {(cta != null) &&  */}
-            <Link
-              to="#"
-              className="font-weight-semibold mb-0 text-sm text-white"
-            >
-              See products &#62;
-            </Link>
-            {/* } */}
-          </div>
+    <section className="mx-auto grid grid-cols-2 gap-3">
+      <Link to="#" className="group block">
+        <div className="relative overflow-hidden">
+          <img
+            src={ImageSource.category1}
+            alt=""
+            className="flex max-h-[30rem] w-full transform rounded-xl object-cover duration-500 group-hover:scale-110"
+          />
         </div>
-      </div>
-    </Link>
+        <div className="text-dark flex items-center gap-1 px-3 py-2">
+          Gaid
+          <CommonIcons.MoveRight />
+        </div>
+      </Link>
+      <Link to="#" className="group block">
+        <div className="relative overflow-hidden">
+          <img
+            src={ImageSource.category2}
+            alt=""
+            className="flex max-h-[30rem] w-full transform rounded-xl object-cover duration-500 group-hover:scale-110"
+          />
+        </div>
+        {/* <div className="text-dark flex items-center gap-1 px-3 py-2">
+          Gaid
+          <CommonIcons.MoveRight />
+        </div> */}
+      </Link>
+    </section>
   );
 }
