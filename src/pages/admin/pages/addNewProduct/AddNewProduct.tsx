@@ -112,7 +112,7 @@ const AddNewProduct = () => {
         setFieldValue(field, [...values.Images, ...urls]);
       }
     } catch (error) {
-      console.error("Upload failed:", error);
+      showError(error);
     } finally {
       setUploading(false);
     }

@@ -11,7 +11,7 @@ const PageWrapper = (props: IPageWrapper) => {
   const { name, className, children, isLoading = true } = props;
   return (
     <div
-      className={`component:${name} page-full relative flex flex-col  p-8 ${className}`}
+      className={`component:${name} page-full relative flex flex-col p-20 ${className}`}
     >
       {isLoading && (
         <div className="page-full fixed bottom-0 left-0 z-[10] flex items-center  justify-center bg-bgLoadingApp backdrop-blur-sm">

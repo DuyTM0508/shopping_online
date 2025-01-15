@@ -51,7 +51,6 @@ const ProductPage = () => {
 
   const handleSearch = useCallback(
     (value: IValueFormPageHeader) => {
-      console.log(value);
       setTrigger(true);
       setFilters((prev: any) => {
         const newParams = {

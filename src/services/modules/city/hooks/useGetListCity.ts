@@ -1,4 +1,5 @@
 import { API_CITY_URL } from "@/consts/apiUrl";
+import { showError } from "@/helpers/toast";
 import { SelectOption } from "@/interfaces/common";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ const useGetListCity = () => {
       );
       setLoading(false);
     } catch (error) {
-      console.error("Error: ", error);
+      showError(error);
     } finally {
       setLoading(false);
     }

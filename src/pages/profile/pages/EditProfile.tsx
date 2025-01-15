@@ -136,224 +136,219 @@ const EditProfile = () => {
             onSubmit={handleUpdateProfile}
           >
             {({ values, setFieldValue, errors, touched, isSubmitting }) => (
-              console.log(values),
-              (
-                <Form className="space-y-8">
-                  <motion.div
-                    className="flex justify-center"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className="relative">
-                      <div className="h-48 w-48 overflow-hidden rounded-full border-4 border-gray-100 shadow-lg">
-                        {values.Avatar ? (
-                          <img
-                            src={values.Avatar}
-                            alt="Profile"
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center bg-gray-100">
-                            <Camera className="h-12 w-12 text-gray-400" />
-                          </div>
-                        )}
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setFieldValue("Avatar", URL.createObjectURL(file));
-                            setFile(file);
-                          }
-                        }}
-                        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                      />
-                      <div className="absolute bottom-2 right-2 rounded-full bg-white p-2 shadow-lg">
-                        <Camera className="h-5 w-5 text-gray-600" />
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <FormField
-                      label="Full Name"
-                      required
-                      error={touched.fullName && errors.fullName}
-                    >
-                      <Input
-                        name="fullName"
-                        placeholder="Enter your full name"
-                        value={values.fullName}
-                        onChange={(e) =>
-                          setFieldValue("fullName", e.target.value)
-                        }
-                        className="w-full"
-                      />
-                    </FormField>
-
-                    <FormField label="Email" required>
-                      <Input
-                        name="email"
-                        value={values.email}
-                        disabled
-                        className="w-full bg-gray-50"
-                      />
-                    </FormField>
-
-                    <FormField
-                      label="Phone Number"
-                      required
-                      error={touched.phoneNumber && errors.phoneNumber}
-                    >
-                      <Input
-                        name="phoneNumber"
-                        placeholder="Enter your phone number"
-                        value={values.phoneNumber}
-                        onChange={(e) =>
-                          setFieldValue("phoneNumber", e.target.value)
-                        }
-                        className="w-full"
-                      />
-                    </FormField>
-
-                    <FormField
-                      label="City"
-                      required
-                      error={touched.ProvinceID && errors.ProvinceID}
-                    >
-                      <Select
-                        value={values.ProvinceID?.toString()}
-                        onValueChange={(value) => {
-                          setProvinceId(value);
-                          setFieldValue("ProvinceID", value);
-                          setFieldValue("DistrictID", "");
-                          setFieldValue("WardID", "");
-                        }}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select city" />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[200px] overflow-y-auto">
-                          {loadingCity ? (
-                            <div className="flex justify-center p-2">
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            </div>
-                          ) : (
-                            city?.map((item: any) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormField>
-
-                    <FormField
-                      label="District"
-                      required
-                      error={touched.DistrictID && errors.DistrictID}
-                    >
-                      <Select
-                        value={values.DistrictID?.toString()}
-                        onValueChange={(value) => {
-                          setDistrictId(value);
-                          setFieldValue("DistrictID", value);
-                          setFieldValue("WardID", "");
-                        }}
-                        disabled={!values.ProvinceID}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select district" />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[200px] overflow-y-auto">
-                          {loadingDistrict ? (
-                            <div className="flex justify-center p-2">
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            </div>
-                          ) : (
-                            listDistrict?.map((item: any) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormField>
-
-                    <FormField
-                      label="Ward"
-                      required
-                      error={touched.WardID && errors.WardID}
-                    >
-                      <Select
-                        value={values.WardID?.toString()}
-                        onValueChange={(value) =>
-                          setFieldValue("WardID", value)
-                        }
-                        disabled={!values.DistrictID}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select ward" />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[200px] overflow-y-auto">
-                          {loadingWard ? (
-                            <div className="flex justify-center p-2">
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            </div>
-                          ) : (
-                            listWard?.map((item: any) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormField>
-
-                    <FormField
-                      label="Detail Address"
-                      required
-                      error={touched.DetailAddress && errors.DetailAddress}
-                    >
-                      <Input
-                        name="DetailAddress"
-                        placeholder="Enter your detail address"
-                        value={values.DetailAddress}
-                        onChange={(e) =>
-                          setFieldValue("DetailAddress", e.target.value)
-                        }
-                        className="w-full"
-                      />
-                    </FormField>
-                  </div>
-
-                  <div className="flex justify-end space-x-4">
-                    <Button
-                      variant="outline"
-                      onClick={() => navigate(-1)}
-                      type="button"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="min-w-[100px]"
-                    >
-                      {isSubmitting ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
+              <Form className="space-y-8">
+                <motion.div
+                  className="flex justify-center"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className="relative">
+                    <div className="h-48 w-48 overflow-hidden rounded-full border-4 border-gray-100 shadow-lg">
+                      {values.Avatar ? (
+                        <img
+                          src={values.Avatar}
+                          alt="Profile"
+                          className="h-full w-full object-cover"
+                        />
                       ) : (
-                        "Save"
+                        <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                          <Camera className="h-12 w-12 text-gray-400" />
+                        </div>
                       )}
-                    </Button>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setFieldValue("Avatar", URL.createObjectURL(file));
+                          setFile(file);
+                        }
+                      }}
+                      className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    />
+                    <div className="absolute bottom-2 right-2 rounded-full bg-white p-2 shadow-lg">
+                      <Camera className="h-5 w-5 text-gray-600" />
+                    </div>
                   </div>
-                </Form>
-              )
+                </motion.div>
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <FormField
+                    label="Full Name"
+                    required
+                    error={touched.fullName && errors.fullName}
+                  >
+                    <Input
+                      name="fullName"
+                      placeholder="Enter your full name"
+                      value={values.fullName}
+                      onChange={(e) =>
+                        setFieldValue("fullName", e.target.value)
+                      }
+                      className="w-full"
+                    />
+                  </FormField>
+
+                  <FormField label="Email" required>
+                    <Input
+                      name="email"
+                      value={values.email}
+                      disabled
+                      className="w-full bg-gray-50"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Phone Number"
+                    required
+                    error={touched.phoneNumber && errors.phoneNumber}
+                  >
+                    <Input
+                      name="phoneNumber"
+                      placeholder="Enter your phone number"
+                      value={values.phoneNumber}
+                      onChange={(e) =>
+                        setFieldValue("phoneNumber", e.target.value)
+                      }
+                      className="w-full"
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="City"
+                    required
+                    error={touched.ProvinceID && errors.ProvinceID}
+                  >
+                    <Select
+                      value={values.ProvinceID?.toString()}
+                      onValueChange={(value) => {
+                        setProvinceId(value);
+                        setFieldValue("ProvinceID", value);
+                        setFieldValue("DistrictID", "");
+                        setFieldValue("WardID", "");
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px] overflow-y-auto">
+                        {loadingCity ? (
+                          <div className="flex justify-center p-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          </div>
+                        ) : (
+                          city?.map((item: any) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormField>
+
+                  <FormField
+                    label="District"
+                    required
+                    error={touched.DistrictID && errors.DistrictID}
+                  >
+                    <Select
+                      value={values.DistrictID?.toString()}
+                      onValueChange={(value) => {
+                        setDistrictId(value);
+                        setFieldValue("DistrictID", value);
+                        setFieldValue("WardID", "");
+                      }}
+                      disabled={!values.ProvinceID}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select district" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px] overflow-y-auto">
+                        {loadingDistrict ? (
+                          <div className="flex justify-center p-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          </div>
+                        ) : (
+                          listDistrict?.map((item: any) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormField>
+
+                  <FormField
+                    label="Ward"
+                    required
+                    error={touched.WardID && errors.WardID}
+                  >
+                    <Select
+                      value={values.WardID?.toString()}
+                      onValueChange={(value) => setFieldValue("WardID", value)}
+                      disabled={!values.DistrictID}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select ward" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px] overflow-y-auto">
+                        {loadingWard ? (
+                          <div className="flex justify-center p-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          </div>
+                        ) : (
+                          listWard?.map((item: any) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormField>
+
+                  <FormField
+                    label="Detail Address"
+                    required
+                    error={touched.DetailAddress && errors.DetailAddress}
+                  >
+                    <Input
+                      name="DetailAddress"
+                      placeholder="Enter your detail address"
+                      value={values.DetailAddress}
+                      onChange={(e) =>
+                        setFieldValue("DetailAddress", e.target.value)
+                      }
+                      className="w-full"
+                    />
+                  </FormField>
+                </div>
+
+                <div className="flex justify-end space-x-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => navigate(-1)}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="min-w-[100px]"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Save"
+                    )}
+                  </Button>
+                </div>
+              </Form>
             )}
           </Formik>
         </CardContent>
