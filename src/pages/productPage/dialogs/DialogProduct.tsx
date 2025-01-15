@@ -113,14 +113,14 @@ const DialogProduct = (props: DialogProductProps) => {
                             <div className="flex flex-wrap lg:flex-nowrap">
                               <ProductGallery
                                 images={detailProduct?.FileList}
-                                defaultImage={detailProduct?.Image}
+                                defaultImage={detailProduct?.Image || ""}
                               />
 
                               <div className="w-full lg:w-1/2 lg:pl-6">
                                 <div className="mt-4 text-2xl font-semibold">
                                   {detailProduct?.Name}
                                 </div>
-                                <div className="text-gray-700 mb-5">
+                                <div className="mb-5 text-gray-700">
                                   {detailProduct?.Description}
                                 </div>
 
@@ -140,7 +140,7 @@ const DialogProduct = (props: DialogProductProps) => {
                                     <ProductRating
                                       rating={detailProduct?.Rating}
                                     />
-                                    <span className="text-gray-600 ml-3">
+                                    <span className="ml-3 text-gray-600">
                                       {detailProduct?.Reviews} reviews
                                     </span>
                                   </div>

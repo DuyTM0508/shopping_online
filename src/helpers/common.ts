@@ -12,6 +12,11 @@ export const sleepTime = (ms: number) => {
   });
 };
 
+export const addLeadingZero = (number: number) => {
+  const stringNumber = `${number}`.padStart(2, "0");
+  return stringNumber;
+};
+
 export const isDefine = (value: any) => !!toString(value);
 
 export function a11yProps(index: number) {
