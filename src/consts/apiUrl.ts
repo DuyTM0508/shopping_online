@@ -14,9 +14,11 @@ export const LOGIN_URL = `${ROOT_URL}/Authservice/login`;
 
 // Product
 export const PRODUCT_URL = `${ROOT_URL}/Product/GetListProduct`;
+export const PRODUCT_URL_USER = `${ROOT_URL}/Product/GetListProductUser`;
 export const PRODUCT_DETAIL_URL = `${ROOT_URL}/Product/GetProductDetail`;
 export const ADD_NEW_PRODUCT_URL = `${ROOT_URL}/Product/InsertProduct`;
 export const UPDATE_PRODUCT_URL = `${ROOT_URL}/Product/UpdateProduct`;
+export const DELETE_PRODUCT_URL = `${ROOT_URL}/Product/DeleteProduct`;
 
 // Cart
 export const CART_URL_ID = `${ROOT_URL}/Cart/GetSessionId`;

@@ -23,8 +23,8 @@ const ProductPage = () => {
     PageSize: cachesFilterProduct?.PageSize || 50,
     CurrentPage: cachesFilterProduct?.CurrentPage || 1,
     TextSearch: "",
-    SortColumn: "Name",
-    SortDirection: "ASC",
+    SortColumn: "",
+    SortDirection: "",
   });
 
   const { data: dataProduct, loading } = useGetListProduct(

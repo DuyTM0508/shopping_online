@@ -70,6 +70,7 @@ const AddNewProduct = () => {
   const handleSubmit = async (values: ProductFormValues) => {
     const bodyUpload = new FormData();
     try {
+      bodyUpload.append("Id", id || "");
       bodyUpload.append("Name", values.Name);
       bodyUpload.append("Category", values.Category);
       bodyUpload.append("Price", values.Price);
@@ -79,7 +80,7 @@ const AddNewProduct = () => {
 
       httpService.attachTokenToHeader(token);
       if (id) {
-        await productService.postUpdateProduct(id, bodyUpload);
+        await productService.postUpdateProduct(bodyUpload);
         navigate(-1);
         showSuccess("Product updated successfully");
         return;

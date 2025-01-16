@@ -1,7 +1,9 @@
+import BaseUrl from "@/consts/baseUrl";
 import cachedKeys from "@/consts/cachedKeys";
 import useFiltersHandler from "@/hooks/useFiltersHandler";
 import useToggleDialog from "@/hooks/useToggleDialog";
-import useGetListProduct from "@/services/modules/product/hooks/useGetListProduct";
+import useGetCateGory from "@/services/modules/category/hooks/useGetCategory";
+import useGetListProductForUser from "@/services/modules/product/hooks/useGetListProductForUser";
 import {
   InitialFilterProduct,
   ProductList,
@@ -10,6 +12,8 @@ import { useGet, useSave } from "@/stores/useStores";
 import { motion } from "framer-motion";
 import { Edit, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import DialogConfirm from "../dialogs/DialogConfirm";
 import PageWrapper from "../PageWrapper/PageWrapper";
 import TablePaging from "../tableCommon/v2/tablePaging";
 import { Button } from "../ui/button";
@@ -19,10 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useNavigate } from "react-router-dom";
-import BaseUrl from "@/consts/baseUrl";
-import DialogConfirm from "../dialogs/DialogConfirm";
-import useGetCateGory from "@/services/modules/category/hooks/useGetCategory";
+import productService from "@/services/modules/product/productService";
 
 const TableTwo = () => {
   //!State
@@ -49,7 +50,7 @@ const TableTwo = () => {
     loading,
     loadingMore,
     refetching,
-  } = useGetListProduct(filters as InitialFilterProduct, {
+  } = useGetListProductForUser(filters as InitialFilterProduct, {
     isTrigger: isTrigger,
     refetchKey: cachedKeys.refetchProduct,
   });
@@ -229,8 +230,11 @@ const TableTwo = () => {
         <DialogConfirm
           title="Delete Product"
           content="Are you sure you want to delete this product?"
-          onSubmit={() => {
-            // Handle delete product
+          onSubmit={async () => {
+            productService.deleteProduct("id").then(() => {
+              toggleOpenDeleteProduct();
+              setTrigger(true);
+            });
           }}
           toggle={toggleOpenDeleteProduct}
           isOpen={openDeleteProduct}

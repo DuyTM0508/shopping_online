@@ -1,7 +1,9 @@
 import {
   ADD_NEW_PRODUCT_URL,
+  DELETE_PRODUCT_URL,
   PRODUCT_DETAIL_URL,
   PRODUCT_URL,
+  PRODUCT_URL_USER,
   UPDATE_PRODUCT_URL,
 } from "@/consts/apiUrl";
 import httpService from "@/services/httpService";
@@ -24,8 +26,19 @@ class ProductService {
     return httpService.post(`${ADD_NEW_PRODUCT_URL}`, data);
   }
 
-  postUpdateProduct(id: String | number, data: FormData) {
-    return httpService.post(`${UPDATE_PRODUCT_URL}?id=${id}`, data);
+  postUpdateProduct(data: FormData) {
+    return httpService.post(`${UPDATE_PRODUCT_URL}`, data);
+  }
+
+  getProductListForUser(
+    filter: IProductRequest,
+    config?: AxiosRequestConfig
+  ): Promise<ResponseGetListProduct> {
+    return httpService.post(`${PRODUCT_URL_USER}`, filter, config);
+  }
+
+  deleteProduct(id: string | number) {
+    return httpService.delete(`${DELETE_PRODUCT_URL}?id=${id}`);
   }
 }
 
