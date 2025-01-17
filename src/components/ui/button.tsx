@@ -24,10 +24,10 @@ const buttonVariants = cva(
           "bg-[#6898AB] text-white hover:bg-[#cbdadf] hover:text-[#6898AB]",
       },
       size: {
-        default: "h-12 px-4 py-2",
+        default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
-        icon: "h-12 w-12",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {

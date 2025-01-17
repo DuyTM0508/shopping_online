@@ -1,6 +1,10 @@
+import { getFromStorage } from "@/helpers/common";
 import { showError } from "@/helpers/toast";
-import httpService from "@/services/httpService";
+import httpService, { USER_KEY } from "@/services/httpService";
 import { Cart } from "@/services/modules/cart/interfaces/cart";
+import useGetDistrict from "@/services/modules/city/hooks/useGetDistrict";
+import useGetListCity from "@/services/modules/city/hooks/useGetListCity";
+import useGetWard from "@/services/modules/city/hooks/useGetWard";
 import orderService from "@/services/modules/order/order.service";
 import { useCartStore } from "@/stores/useStores";
 import { Form, Formik } from "formik";
@@ -26,13 +30,28 @@ interface Props {
 
 const FormCheckOut = ({ data, refetchCart, toggle }: Props) => {
   //!State
+  const dataUser = getFromStorage(USER_KEY);
+  const userInfo = JSON.parse(dataUser?.data || "");
+
+  const formatProvinceId = userInfo?.ProvinceID.toString().padStart(2, "0");
+  const formatDistrictId = userInfo?.DistrictID.toString().padStart(3, "0");
+  const formatWardId = userInfo?.WardID.toString().padStart(5, "0");
+
+  const { listCity } = useGetListCity();
+  const { listDistrict } = useGetDistrict(formatProvinceId);
+  const { listWard } = useGetWard(formatDistrictId);
+
   const initialValues = {
-    OrderCode: Math.floor(Math.random() * 1000000),
+    OrderCode: Math.floor(100000 + Math.random() * 900000),
     Address: "",
-    city: "",
-    state: "",
+    ProvinceID: listCity?.find((item) => item.value === formatProvinceId)
+      ?.label,
+    DistrictID: listDistrict?.find((item) => item.value === formatDistrictId)
+      ?.label,
+    WardID: listWard?.find((item) => item.value === formatWardId)?.label,
     Type: 1,
   };
+
   const token = httpService.getTokenStorage();
   const validationSchema = Yup.object().shape({
     Address: Yup.string().required("Address is required"),
@@ -72,6 +91,7 @@ const FormCheckOut = ({ data, refetchCart, toggle }: Props) => {
         initialValues={initialValues}
         onSubmit={handleCheckOut}
         validationSchema={validationSchema}
+        enableReinitialize
       >
         {({}) => {
           return (
@@ -98,33 +118,36 @@ const FormCheckOut = ({ data, refetchCart, toggle }: Props) => {
                       required
                       component={InputField}
                       name="Address"
-                      label="Address"
-                      placeholder="Street, no"
+                      label="Address Detail"
+                      placeholder="Enter your address detail"
                     />
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-4">
                     <div>
                       <FormikField
                         component={InputField}
-                        name="city"
-                        label="City"
-                        placeholder="Enter city"
+                        name="ProvinceID"
+                        label="Province"
+                        placeholder="Enter your province"
+                        disabled
                       />
                     </div>
                     <div>
                       <FormikField
                         component={InputField}
-                        name="state"
-                        label="State"
-                        placeholder="Enter your country"
+                        name="DistrictID"
+                        label="District"
+                        placeholder="Enter your district"
+                        disabled
                       />
                     </div>
                     <div>
                       <FormikField
                         component={InputField}
-                        name="code"
-                        label="Postal code"
-                        placeholder="Your postal code"
+                        name="WardID"
+                        label="Ward"
+                        placeholder="Your postal ward"
+                        disabled
                       />
                     </div>
                   </div>

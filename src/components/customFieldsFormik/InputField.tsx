@@ -23,6 +23,7 @@ interface InputFieldProps extends InputProps {
   onCustomChange?: (e: ChangeEvent) => void;
   isNumberic?: boolean;
   unitNumberic?: string;
+  placeholder?: string;
 }
 
 const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
@@ -44,6 +45,7 @@ const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
     propValue = "",
     isNumberic,
     unitNumberic,
+    placeholder,
     ...restPropsInput
   } = props;
 
@@ -96,6 +98,7 @@ const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
       return (
         <NumericFormat
           onBlur={onBlur}
+          placeholder={placeholder}
           value={value}
           onValueChange={(values) => {
             onChange &&
@@ -103,7 +106,7 @@ const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
               onChange({
                 target: {
                   name: name,
-                  value: values.value || 0,
+                  value: values.value || "",
                 },
               });
           }}
@@ -120,7 +123,7 @@ const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
           }}
           className={twMerge(
             className,
-            "typo-3 !focus:border-black 2xl:text-typo-2 min-h-12 w-full rounded-[8px] !border-[1px] !border-[#e2e8f0] px-[16px] py-[8px] !text-black placeholder-text-third focus-visible:ring-0 focus-visible:ring-offset-0 2xl:h-9 2xl:py-[12px]",
+            "typo-3 !focus:border-black 2xl:text-typo-2 w-full rounded-[8px] !border-[1px] !border-[#e2e8f0] px-[16px] py-[8px] !text-black placeholder-text-third focus-visible:ring-0 focus-visible:ring-offset-0 2xl:h-9 2xl:py-[12px]",
             disabled && "bg-disabled !opacity-[0.8]",
             msgError && "border-red-500 focus:border-red-500"
           )}

@@ -9,7 +9,7 @@
     "lint": "eslint src --ext ts,tsx --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky",
-    "start": "vite preview"
+    "start": "vite preview --host"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^44.1.0",

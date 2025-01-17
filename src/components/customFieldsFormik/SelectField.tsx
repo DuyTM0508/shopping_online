@@ -181,7 +181,7 @@ const SelectField = (props: SelectFieldProps & AdditionalFormikProps) => {
             aria-expanded={open}
             className={twMerge(
               "flex w-full justify-between 2xl:h-[36px]",
-              multiple ? "h-fit min-h-[55px]" : "",
+              multiple ? "h-fit min-h-[20px]" : "",
               !value && "text-muted-foreground",
               disabled && "bg-disabled",
               msgError && "border-red-500",
