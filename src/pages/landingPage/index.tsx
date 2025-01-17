@@ -1,8 +1,8 @@
+import { ImageSource } from "@/assets";
 import CollectionSection from "@/components/product/cardCategory";
 import ProductFeature from "@/components/product/productFeature";
 import PromoSectionLarge from "@/components/promo/promoSectionLarge";
 import BaseUrl from "@/consts/baseUrl";
-import data from "../../../public/data.json";
 
 const LandingPage = () => {
   //! State
@@ -14,8 +14,10 @@ const LandingPage = () => {
     <div>
       <PromoSectionLarge
         title={"Discover Sustainable Style - Stunning Secondhand Clothes"}
-        full_description={data.products[0].full_description || ""}
-        pageHeaderBgImg={"../images/bg2.jpg"}
+        full_description={
+          "Shop the best of pre-loved fashion at unbeatable prices."
+        }
+        pageHeaderBgImg={ImageSource.imgBgHomePage}
         pageHeaderMinVh="70vh"
         pageHeaderRadius={""}
         titleButton="Discover Now"
@@ -35,9 +37,11 @@ const LandingPage = () => {
 
       <PromoSectionLarge
         title="Basic Starter Pack"
-        full_description={data.products[0].full_description || ""}
-        pageHeaderBgImg={"../images/bg2.jpg"}
-        pageHeaderMinVh="50vh"
+        full_description={
+          "Get the best of pre-loved fashion at unbeatable prices."
+        }
+        pageHeaderBgImg={ImageSource.imgBgHomePage2}
+        pageHeaderMinVh="55vh"
         pageHeaderRadius="1rem"
         titleButton="Shop Now"
         linkTo={BaseUrl.ProductPage}

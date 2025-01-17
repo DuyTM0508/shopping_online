@@ -173,7 +173,7 @@ const Login = () => {
       </div>
       <div className="col-span-3 hidden h-screen md:block">
         <img
-          src={ImageSource.mirror}
+          src={ImageSource.imgBackgroundApp}
           className="h-full w-full"
           alt={"loginImage"}
         />

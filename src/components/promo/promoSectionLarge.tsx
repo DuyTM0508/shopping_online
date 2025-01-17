@@ -35,7 +35,7 @@ const PromoSectionLarge = ({
         <div className={`absolute inset-0 bg-black opacity-60`}></div>
         <div className="container relative z-10">
           <div className="flex justify-start px-13">
-            <div className="mt-60 max-w-2xl text-start">
+            <div className="mt-90 max-w-2xl text-start">
               <div className="mb-4 text-3xl font-bold text-white md:text-4xl">
                 {title}
               </div>

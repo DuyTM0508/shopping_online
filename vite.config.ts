@@ -11,8 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    host: true, // Expose to external network (e.g., Docker host)
-    port: 5173, // Match the port in your Dockerfile and EXPOSE directive
-    strictPort: true, // Ensures the app fails if the port is unavailable
+    host: "0.0.0.0",
+    port: 5173,
   },
 });

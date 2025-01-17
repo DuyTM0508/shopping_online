@@ -1,4 +1,3 @@
-import mirror from "../../public/images/mirror.png";
 import avartarDefault from "./source/avartar_default.jpg";
 import category1 from "./source/category1.jpg";
 import category2 from "./source/category2.jpg";
@@ -18,10 +17,13 @@ import suit1 from "./source/suit-1.jpg";
 import suit2 from "./source/suit-2.jpg";
 import suit3 from "./source/suit-3.jpg";
 import suit4 from "./source/suit-4.jpg";
+import imgBackgroundApp from "./source/imgBackgroundApp.jpg";
+import imgBgLandingPage from "./source/imgBgLandingPage.jpeg";
+import imgBgHomePage from "./source/imgBgHomePage.jpg";
+import imgBgHomePage2 from "./source/imgBgHomePage2.jpg";
 
 export const ImageSource = {
   logoApp: logoApp,
-  mirror: mirror,
   errorIcon: errorIcon,
   successIcon: successIcon,
   closeErrorIcon: closeErrorIcon,
@@ -40,4 +42,8 @@ export const ImageSource = {
   suit2: suit2,
   suit3: suit3,
   suit4: suit4,
+  imgBackgroundApp: imgBackgroundApp,
+  imgBgLandingPage: imgBgLandingPage,
+  imgBgHomePage: imgBgHomePage,
+  imgBgHomePage2: imgBgHomePage2,
 };

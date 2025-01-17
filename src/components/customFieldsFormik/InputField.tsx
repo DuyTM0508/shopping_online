@@ -153,6 +153,7 @@ const InputField = (props: InputFieldProps & AdditionalFormikProps) => {
             );
           }
         }}
+        placeholder={placeholder}
         iconText={iconText}
         className={twMerge(
           className,
