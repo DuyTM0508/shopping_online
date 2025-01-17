@@ -1,6 +1,45 @@
-create_file:
-  image: alpine
+image: node:latest
+variables:
+  PUBLIC_URL: /
+# Cache node modules - speeds up future builds
+cache:
+  paths:
+    - node_modules
+stages:
+  - build
+  - deploy
+build:
+  stage: build
   script:
-    - echo "Building...!"
-    - mkdir build
-    - touch build/build.txt
+    - npm install # Install all dependencies
+    - npm run build --prod # Build for prod
+  artifacts:
+    paths:
+      - build
+  only:
+    - master # Only run on master branch
+deploy_production:
+  stage: deploy
+  image: ubuntu
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+    - apt-get install rsync -y -qq
+    - apt-get install curl -y -qq
+
+  script:
+    - echo "Deploying to server"
+    - ssh -i ~/.ssh/gitlab -o StrictHostKeyChecking=no github-runner@103.179.185.114 -p 22
+    - rsync -avz --progress -a -e "ssh -p 22" build/ github-runner@103.179.185.114:/home/www/2handshop.id.vn/public_html
+    - echo "Deployed"
+  environment:
+    name: production
+    url: http:2handshop.id.vn
+  only:
+    - develop# Only run on master branch
